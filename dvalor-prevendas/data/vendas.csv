@@ -1,0 +1,81 @@
+n,tipo,closer,cliente,funil,valor,recebido,pagamento,data,fonte_data,mes,pre_venda
+1,Venda nova,Dyene,Ricelli Oliveira,Anúncio Bolivia,1500,,Não informado,2026-08-07,primeira lista da Aline em que aparece,2026-08,
+2,Venda nova,Raphael,Valdir Gonçalves,Low Ticket,5000,,Não informado,2026-08-10,primeira lista da Aline em que aparece,2026-08,
+3,Venda nova,Dyene,Cristiane Ferraz,Anúncio 100,8702.99,,Não informado,2026-08-12,primeira lista da Aline em que aparece,2026-08,
+4,Venda nova,Raphael,Andressa Melo,Anúncio 100,9000,,Não informado,2026-08-19,primeira lista da Aline em que aparece,2026-08,
+5,Venda nova,Dyene,Clarice Faria,Formulário Callendly - até 5K,3486.73,,Não informado,2026-08-27,primeira lista da Aline em que aparece,2026-08,Lara
+6,Venda nova,Raphael,Paulla Amorim,Seguidores,1000,,Não informado,2026-08-27,primeira lista da Aline em que aparece,2026-08,
+7,Venda nova,Tofani,Luciana Pereira,Seguidores,3000,,Não informado,2026-08-27,primeira lista da Aline em que aparece,2026-08,Lu
+8,Venda nova,Théo,Ana Beatriz Tartuce,Anúncio Bolivia,12000,,Não informado,2026-08-27,primeira lista da Aline em que aparece,2026-08,Lara
+9,Venda nova,Dyene,Hugo Ribeiro,Anúncio 100,8000,,Não informado,2026-08-27,primeira lista da Aline em que aparece,2026-08,Lara
+10,Venda nova,Raphael,Beth Ripoli,Formulário Callendly - 5K até 10k,8000,,Não informado,2026-08-31,menção da venda nos grupos,2026-08,
+11,Venda nova,Tofani,Síntia Soares,Anúncio 100,4000,,Não informado,2026-08-31,menção da venda nos grupos,2026-08,Lu
+12,Venda nova,André,Rhadila Milhome,Anúncio Bolivia,800,,Não informado,2026-08-31,entrou na lista de agosto em 01/09; lançada no último dia do mês,2026-08,Lara
+13,Venda nova,Théo,Bárbara Oliveira,Anúncio 100,2000,,Não informado,2026-09-05,primeira lista da Aline em que aparece,2026-09,Lara
+14,Venda nova,Dyene,Michele Mata,Anúncio Bolivia,2000,,Não informado,2026-09-05,primeira lista da Aline em que aparece,2026-09,Lu
+15,Venda nova,Raphael,Jaqueline Ribeiro,Seguidores,8000,,Não informado,2026-09-06,primeira lista da Aline em que aparece,2026-09,Lara
+16,Venda nova,Dyene,Juliana Colella,Anúncio 100,2000,,Não informado,2026-09-11,primeira lista da Aline em que aparece,2026-09,
+17,Venda nova,Dyene,Andrey Franklin,Anúncio 100,2900,,Não informado,2026-09-14,primeira lista da Aline em que aparece,2026-09,
+18,Venda nova,Dyene,Miriam Muller,Seguidores,5000,,Não informado,2026-09-14,primeira lista da Aline em que aparece,2026-09,
+19,Venda nova,Tofani,Giovana Teles,Seguidores,5000,,Não informado,2026-09-14,menção da venda nos grupos,2026-09,Lu
+20,Venda nova,Théo,Érica Melo,Formulário Callendly 20k até 30k,6000,,Não informado,2026-09-15,menção da venda nos grupos,2026-09,
+21,Venda nova,Tofani,Fabiana Queiroz,Low Ticket,2000,,Não informado,2026-09-21,primeira lista da Aline em que aparece,2026-09,Aline
+22,Venda nova,Ramon,Milagros Bruzzo,Formulário Callendly 5K até 10k,5536.71,,Não informado,2026-09-21,primeira lista da Aline em que aparece,2026-09,
+23,Venda nova,Raphael,Camila Paiva,Formulário da bio,8000,,Não informado,2026-09-21,primeira lista da Aline em que aparece,2026-09,Lu
+24,Venda nova,Dyene,Cézar Francisco,Low Ticket,8189,,Não informado,2026-09-22,primeira lista da Aline em que aparece,2026-09,Aline
+25,Venda nova,Tofani,Marcos Wesley,Anúncio Bolivia,8000,,Não informado,2026-09-23,comemoração do closer no Comercial,2026-09,Lara
+26,Venda nova,Dyene,Eduardo Barros,Anúncio 100,5000,,Não informado,2026-09-25,primeira lista da Aline em que aparece,2026-09,Lara
+27,Venda nova,Raphael,Jean Lopes,Anúncio 100,5000,,Não informado,2026-09-25,primeira lista da Aline em que aparece,2026-09,Lara
+28,Venda nova,Théo,Leonardo Natan,Seguidores,7500,,Não informado,2026-09-26,comemoração do closer no Comercial,2026-09,Lu
+29,Venda nova,Raphael,Yhas Alves,Anúncio Bolivia,7700,,Não informado,2026-09-30,primeira lista da Aline em que aparece,2026-09,Lu
+30,Venda nova,Théo,Wilian Macedo,Anúncio 100,4000,,Não informado,2026-09-30,comemoração do closer no Comercial,2026-09,Lu
+31,Retroativo,Dyene,Marbelis Reyes,,1350,,Não informado,,retroativo: entra só no mês,2026-09,
+32,Retroativo,Raphael,Moacir Till,,1000,,Não informado,,retroativo: entra só no mês,2026-09,
+33,Retroativo,André,Rhadila Milhomen,,800,,Não informado,,retroativo: entra só no mês,2026-09,
+34,Retroativo,Raphael,Suze Moreira,,1500,,Não informado,,retroativo: entra só no mês,2026-09,
+35,Retroativo,Ramon,Rubens Souza,,500,,Não informado,,retroativo: entra só no mês,2026-09,
+36,Retroativo,Dyene,Rodrigo Gonzales,,1500,,Não informado,,retroativo: entra só no mês,2026-09,
+37,Retroativo,Dyene,Juliana Sacramento,,200,,Não informado,,retroativo: entra só no mês,2026-09,
+38,Retroativo,Dyene,Valmir Neto,,2000,,Não informado,,retroativo: entra só no mês,2026-09,
+39,Retroativo,Raphael,Pierre Ochôa,,1304,,Não informado,,retroativo: entra só no mês,2026-09,
+40,Retroativo,Ramon,Fabiana Santos,,1000,,Não informado,,retroativo: entra só no mês,2026-09,
+41,Retroativo,Raphael,Elizabeth Fernandes,,300,,Não informado,,retroativo: entra só no mês,2026-09,
+42,Venda nova,Dyene,Thiago Ferraz,Seguidores,8000,,Não informado,2026-10-01,menção da venda nos grupos,2026-10,Lu
+43,Venda nova,Tofani,Alex Martiniano,Form Callendly 10k até 20k,5000,,Não informado,2026-10-01,comemoração do closer no Comercial,2026-10,Aline
+44,Venda nova,Dyene,Renê Leite,Anúncio 100,3311,,Não informado,2026-10-01,primeira lista da Aline em que aparece,2026-10,Lu
+45,Venda nova,Tofani,Glaucia Ricartes,Callendly 5K até 10k,5000,,Não informado,2026-10-03,comemoração do closer no Comercial,2026-10,Aline
+46,Venda nova,Tofani,Priscila Freitas,Low ticket,5000,,Não informado,2026-10-05,comemoração do closer no Comercial,2026-10,Aline
+47,Venda nova,Raphael,Fernando Sérgio,Anúncio Bolivia,5000,,Não informado,2026-10-06,menção da venda nos grupos,2026-10,Lu
+48,Venda nova,Dyene,Clara Alencar,Indicação (Mentorada Delise),5200,,Não informado,2026-10-03,comemoração do closer no Comercial,2026-10,Lu
+49,Venda nova,Raphael,Leonardo Rodrigues,Form Callendly 10k até 20k,3000,,Não informado,2026-10-05,comemoração do closer no Comercial,2026-10,Aline
+50,Venda nova,Dyene,Thamyres Schneider,Seguidores,5000,,Não informado,2026-10-13,primeira lista da Aline em que aparece,2026-10,Lara
+51,Venda nova,Théo,Alexandre Alves,Anúncio 100,3000,,Não informado,2026-10-13,comemoração do closer no Comercial,2026-10,Lu
+52,Venda nova,Dyene,Eduardo Nunes,Form Callendly R$5 até 10k,2000,,Não informado,2026-10-15,primeira lista da Aline em que aparece,2026-10,Aline
+53,Venda nova,Théo,Ana Carvalho,Seguidores,7000,,Não informado,2026-10-16,comemoração do closer no Comercial,2026-10,Lu
+54,Venda nova,Théo,Esvana Cipriano,Seguidores,2000,,Não informado,2026-10-17,consolidado do dia da Aline,2026-10,Lara
+55,Venda nova,Dyene,Juraci Santana,Low ticket,4352.08,,Não informado,2026-10-22,relatório da Dyene,2026-10,Lu
+56,Venda nova,Théo,Adriana Nascimento,Form Callendly R$5 até 10k,3000,3000,Não informado,2026-10-27,consolidado do dia da Aline,2026-10,Aline
+57,Retroativo,Théo,Wilian Macedo,,4000,,Não informado,,retroativo: entra só no mês,2026-10,
+58,Retroativo,Ramon,Rodrigo Guedes,,500,,Não informado,,retroativo: entra só no mês,2026-10,
+59,Retroativo,Dyene,Marbelis Reyes,,1350,,Não informado,,retroativo: entra só no mês,2026-10,
+60,Retroativo,Dyene,Juliana Colella,,1000,,Não informado,,retroativo: entra só no mês,2026-10,
+61,Retroativo,Dyene,Juliana Sacramento,,280,,Não informado,,retroativo: entra só no mês,2026-10,
+62,Retroativo,André,Rhadila Milhomem,,800,,Não informado,,retroativo: entra só no mês,2026-10,
+63,Retroativo,Dyene,Rodrigo Gonzales,,1500,,Não informado,,retroativo: entra só no mês,2026-10,
+64,Retroativo,Ramon,Rubens Oliveira,,500,,Não informado,,retroativo: entra só no mês,2026-10,
+65,Retroativo,Dyene,Valmir Netto,,1000,,Não informado,,retroativo: entra só no mês,2026-10,
+66,Retroativo,Vários,Retroativos de agosto (vários),,23231,,Não informado,,retroativo: entra só no mês,2026-08,
+67,Venda nova,Dyene,Mariana Mansor Barreto Fontana,Seguidores,8704,,Não informado,2026-10-31,"post da Aline 31/10 15h41 (valor ""a corrigir""); call em 27/10; valor corrigido na lista da Aline 02/11 (era 10.000 a corrigir)",2026-10,Lara
+68,Venda nova,Théo,Estéverson Oliveira Lima,Seguidores,8000,,Cartão de crédito 12x,2026-11-03,"comprovante postado pelo Théo no Comercial 03/11 16h37 (Mentoria D-Valor, aprovada); SDR Lu (Aline marcou no grupo da Lu 16h45)",2026-11,Lu
+69,Retroativo,Raphael,Elizabete Fernandes,,350,350,Transferência,2026-11-04,comprovante (notificação Nubank R$ 350) postado no Comercial 04/11 14h11; lista da Aline 04/11 15h54 escreve R$ 300 mas o total dela (R$ 8.350) bate com 350; lista da Aline 06/11 e 12/11 11h50 coloca a Elizabete com o Raphael (corrigido 12/11),2026-11,
+70,Venda nova,Raphael,Marcelo Batista de Oliveira,Calendly,2000,2000,Entrada R$ 2 mil (contrato de 12 mil: entrada + 5x R$ 2 mil; cada parcela entra como recorrente no mês em que for paga),2026-11-04,"post do Raphael no Comercial 04/11 19h14 (""Negócio fechado"", oferta 12 mil, entrada 2 mil + 5x 2 mil, onboarding 05/11 16h) + contrato em PDF; call das 17h na agenda dele; SDR não informada (pendente na lista da Aline); lista da Aline 05/11 12h12: funil Calendly 10K a 20K, SDR Aline (post 04/11 21h49); 12/11: Márcio decidiu contar só o recebido (R$ 2 mil) em novembro e lançar R$ 2 mil de recorrente nos meses seguintes",2026-11,Aline
+71,Venda nova,Raphael,Helena Daubner,Calendly,12000,12000,Pix R$ 1 mil (05/11) + Pix R$ 11 mil (09/11),2026-11-05,"comprovante Pix Itaú R$ 1.000 postado no Comercial 05/11 11h39 (""Nova mentorada, Alemã"") + post da Aline 13h45 (""Fechada 💰 R$1.000 coletados"", Calendly 20k até 30k) + lista da Aline 12h12; call de 04/11 finalizada 05/11 11h; fechada 09/11: comprovante Itaú R$ 11.000 no Comercial 09/11 13h28 (Raphael """"pagamento do valor restante"""", 12k) + post da Aline 13h39 (""""12mil coletados"""") + lista da Aline 13h43",2026-11,Aline
+72,Venda nova,Théo,Kaliandra Cavalcante Pessoa,Seguidores,8000,8000,Cartão de crédito 12x,2026-11-06,"comprovante postado pelo Théo no Comercial 06/11 17h20 (Mentoria D-Valor, aprovada, R$ 8.000 em 12x de R$ 794,67); funil e SDR pendentes (lista da Aline); post da Aline 06/11 18h59: SDR Lara/Aline, funil Seguidores, call feita 04/11 e fechada 06/11, R$ 8.000 coletados; lista da Aline 20h16",2026-11,Lara
+73,Venda nova,Dyene,Luciano Pinheiro,InLead,2615.22,2615.22,Não informado,2026-11-06,"post da Aline 06/11 20h13 (call fechada, R$ 3.000 coletados, Inlead 20k até 50k, SDR Luciane/Aline) + lista da Aline 20h16; lead da recuperação da Lu (03/11); 17/11: lista da Aline 16h27 passou o valor para R$ 2.615,22 (antes R$ 3.000)",2026-11,Lu
+74,Retroativo,Dyene,Valmir Netto,,1000,1000,Pix,2026-11-10,comprovante Pix Itaú R$ 1.000 postado pela Dyene no Comercial 10/11 15h52; Valmir Netto (Dyene) já está nos retroativos da lista de outubro da Aline,2026-11,
+75,Retroativo,Dyene,Juliana Colella,,1000,1000,Pix,2026-11-11,"comprovante Pix Caixa R$ 1.000 (11/11 13h27, pagadora com outro nome) postado pela Dyene no Comercial 13h40 + notificação no print do Yago 13h30; lista da Aline 11/11 14h08 lista Juliana Colella R$ 1.000 (Dyene) nos retroativos",2026-11,
+76,Venda nova,Dyene,Galeno Amorim,Low Ticket,7000,7000,2 transferências de R$ 3.500,2026-11-12,"2 comprovantes de R$ 3.500 (12/11) postados pela Dyene no Comercial 10h01 + post da Aline 11h52 (fechamento 12/11, call 30/10, 7 mil coletados, SDR Aline) + lista da Aline 12/11 11h50",2026-11,Aline
+77,Retroativo,Théo,Barbara Helena da Silva Oliveira,,800,800,Transferência,2026-11-13,"notificação Nubank ""transferência recebida R$ 800,00"" postada pelo Yago no Comercial 13/11 09h31 (""de quem é essa?"") + Théo 09h49: ""Minha, tá pagando a parcela do mês""",2026-11,
+78,Venda nova,Raphael,Vagner Santiago Duques,Calendly,2000,2000,Kiwify (Mentoria D-Valor R$ 2.000 aprovada; pagador com outro nome),2026-11-13,"comprovante Kiwify aprovado R$ 2.000 postado pelo Raphael no Comercial 13/11 20h20 (""Vendaaaa"") + post da Aline 22h18 (call de 04/10, fechado 13/11, R$ 2.000 coletados, Callendly 20k até 30k, SDR Aline) + lista da Aline 22h20 (item 7)",2026-11,Aline
+79,Venda nova,Raphael,Denise Otalora,Indicação,2000,2000,Pix R$ 2.000 (valor do contrato e forma do restante a confirmar),2026-11-17,"comprovante Pix BB R$ 2.000 (17/11 07h55, pagadora Denise Otalora) postado pelo Raphael no Comercial 07h57 (""Vendaaa""); call de fechamento 16/11 18h na agenda dele; R$ 300 de ""Compromisso"" postado 16/11 22h24 (pagador PJ) ainda sem lead identificado; lista da Aline 17/11 16h27: funil ""Indicação de lead""; R$ 300 de compromisso é do Rodrigo Campos (lead antigo do Raphael, áudio 17/11 12h03), não é venda; post da Aline 17/11 17h03 (call 09/11, SDR Luciane/Aline)",2026-11,Lu
+80,Venda nova,Théo,Márcia Cury,Formulário da bio,8000,8000,Mentoria D-Valor R$ 8.000 aprovada (checkout),2026-11-17,"print do checkout ""Aprovada"" 1x Mentoria D-Valor R$ 8.000 postado pelo Théo no Comercial 17/11 15h32 (""Vendas meus amigos"") + lista da Aline 17/11 16h27 (item 9, Formulário da bio, Théo); post da Aline 17/11 17h06 (call 13/11, SDR Luciane/Aline)",2026-11,Lu

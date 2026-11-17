@@ -1,0 +1,1996 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pré-vendas D-Valor</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--color-fg:#1f1e1d;--color-fg-muted:#6b6966;--color-bg:#faf9f7;--color-panel:#ffffff;--color-border-line:rgba(31,30,29,.12);
+--color-ok:#3d7a4f;--color-warn:#b7791f;--color-bad:#c0392b;
+--font-anthropic-sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+--cds-font-size-caption:.8125rem;--cds-font-size-body:.9375rem;--cds-font-size-body-sm:.875rem;--cds-font-size-heading:1.125rem;--cds-font-size-title:1.5rem;
+--cds-gap-xs:.25rem;--cds-gap-sm:.5rem;--cds-gap-md:1rem;--cds-gap-lg:1.75rem;--cds-gap-xl:2.5rem;--cds-pad-lg:1.25rem;--cds-radius:.75rem;
+--cds-dur-slow:.45s;--cds-ease-out:cubic-bezier(.165,.84,.44,1);--cds-chart-status-critical:#d03b3b;--cds-chart-grid:rgba(31,30,29,.1);}
+@media (prefers-color-scheme: dark){:root{--color-fg:#ecebe8;--color-fg-muted:#a3a19c;--color-bg:#1a1918;--color-panel:#262523;--color-border-line:rgba(236,235,232,.14);--cds-chart-grid:rgba(236,235,232,.12);}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans);font-size:var(--cds-font-size-body);}
+#dash-root{padding:16px;max-width:1400px;margin:0 auto;box-sizing:border-box}
+.dv-gh-foot{text-align:center;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);padding:24px 0}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>window.DV_DATASETS=['vendas', 'funil_diario', 'closer_diario', 'prevendas_diario', 'leads', 'reunioes', 'conferencia', 'crm_funil_diario', 'midia_anuncios', 'metas', 'meses'];window.DV_PARAMS={"mes":"2026-11","dia":""};window.DV_VERSAO="202611171928";</script>
+<script src="dash-shim.js?v=202611171928"></script>
+</head><body><div id="dash-root">
+
+<style>
+  .dv.dv.dv.dv {
+    --dv-sage: color-mix(in srgb, #a99bc4 55%, var(--color-panel));
+    --dv-sage-soft: color-mix(in srgb, #d3cbe3 45%, var(--color-panel));
+    --dv-sage-deep: color-mix(in srgb, #6e5a96 75%, var(--color-panel));
+    --dv-ground: color-mix(in srgb, var(--color-fg) 4%, var(--color-bg));
+    --dv-chip: color-mix(in srgb, var(--color-fg) 7%, var(--color-panel));
+    --dv-ink: var(--color-fg);
+    --dv-ink-soft: color-mix(in srgb, var(--color-fg) 22%, transparent);
+    --dv-radius: 1.75rem;
+    --dv-glass: color-mix(in srgb, var(--color-panel) 38%, transparent);
+    --dv-glass-strong: color-mix(in srgb, var(--color-panel) 55%, transparent);
+    --dv-glass-line: color-mix(in srgb, var(--color-panel) 70%, transparent);
+    --dv-glass-shadow: 0 10px 40px color-mix(in srgb, #3f2a5d 10%, transparent), inset 0 1px 0 color-mix(in srgb, var(--color-panel) 60%, transparent);
+    --dv-glow-1: color-mix(in srgb, #a98be0 55%, transparent);
+    --dv-glow-2: color-mix(in srgb, #e9d9f5 60%, transparent);
+    --dv-glow-3: color-mix(in srgb, var(--color-panel) 85%, transparent);
+    position: relative; isolation: isolate; display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); color: var(--color-fg);
+    padding: clamp(1rem, 3vw, 2.5rem); border-radius: 2rem; overflow: hidden;
+    background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1600 1800%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cdefs%3E %3Cfilter id=%22b1%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2270%22/%3E%3C/filter%3E %3Cfilter id=%22b2%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2242%22/%3E%3C/filter%3E %3Cfilter id=%22b3%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2295%22/%3E%3C/filter%3E %3C/defs%3E %3Crect width=%221600%22 height=%221800%22 fill=%22%23f6f4f9%22/%3E %3Cellipse cx=%221120%22 cy=%22700%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.75%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M820 820 C760 660 860 540 1030 490 C1190 440 1270 360 1380 280 C1440 360 1440 520 1340 610 C1220 720 1080 790 980 820 Z%22 fill=%22%23b7a0e0%22 opacity=%22.55%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M920 360 C940 450 1070 490 1220 488 C1330 486 1400 450 1440 400 C1400 330 1330 300 1250 316 C1140 338 1060 320 1010 290 C960 262 920 300 920 360 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%22360%22 cy=%22380%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.4%22 filter=%22url(%23b3)%22/%3E %3Cellipse cx=%22480%22 cy=%221260%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.7%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M780 1520 C840 1360 740 1240 570 1190 C410 1140 330 1060 220 980 C160 1060 160 1220 260 1310 C380 1420 520 1490 620 1520 Z%22 fill=%22%23b7a0e0%22 opacity=%22.5%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M680 1060 C660 1150 530 1190 380 1188 C270 1186 200 1150 160 1100 C200 1030 270 1000 350 1016 C460 1038 540 1020 590 990 C640 962 680 1000 680 1060 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%221240%22 cy=%221420%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.35%22 filter=%22url(%23b3)%22/%3E %3C/svg%3E") top center / max(100%, 1600px) 1800px repeat-y, #f6f4f9;
+  }
+  .dv::before, .dv::after { content: none; }
+  .dv::before { width: 70%; height: 60%; right: -12%; top: 22%; background: radial-gradient(closest-side, var(--dv-glow-2), transparent 70%), radial-gradient(closest-side at 40% 30%, var(--dv-glow-1), transparent 75%); }
+  .dv::after { width: 55%; height: 45%; right: 6%; top: 8%; background: radial-gradient(closest-side, var(--dv-glow-3), transparent 75%); }
+  .dv-bgwave { display: none; }
+  .dv-bgwave i { position: absolute; border-radius: 50%; opacity: .9; }
+  .dv-bgwave i:nth-child(1) { width: 46vw; height: 40vw; left: -10%; bottom: -8%; background: radial-gradient(closest-side, color-mix(in srgb, #bfa8e6 45%, transparent), transparent 70%); }
+  .dv-bgwave i:nth-child(2) { width: 38vw; height: 34vw; left: 38%; top: 40%; background: radial-gradient(closest-side, color-mix(in srgb, #efe2f8 55%, transparent), transparent 70%); }
+  .dv-bgwave i:nth-child(3) { width: 30vw; height: 26vw; left: 18%; top: -6%; background: radial-gradient(closest-side, color-mix(in srgb, #a88ddb 30%, transparent), transparent 72%); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dv { background: linear-gradient(color-mix(in srgb, #150f1c 82%, transparent), color-mix(in srgb, #150f1c 82%, transparent)), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1600 1800%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cdefs%3E %3Cfilter id=%22b1%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2270%22/%3E%3C/filter%3E %3Cfilter id=%22b2%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2242%22/%3E%3C/filter%3E %3Cfilter id=%22b3%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2295%22/%3E%3C/filter%3E %3C/defs%3E %3Crect width=%221600%22 height=%221800%22 fill=%22%23f6f4f9%22/%3E %3Cellipse cx=%221120%22 cy=%22700%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.75%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M820 820 C760 660 860 540 1030 490 C1190 440 1270 360 1380 280 C1440 360 1440 520 1340 610 C1220 720 1080 790 980 820 Z%22 fill=%22%23b7a0e0%22 opacity=%22.55%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M920 360 C940 450 1070 490 1220 488 C1330 486 1400 450 1440 400 C1400 330 1330 300 1250 316 C1140 338 1060 320 1010 290 C960 262 920 300 920 360 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%22360%22 cy=%22380%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.4%22 filter=%22url(%23b3)%22/%3E %3Cellipse cx=%22480%22 cy=%221260%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.7%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M780 1520 C840 1360 740 1240 570 1190 C410 1140 330 1060 220 980 C160 1060 160 1220 260 1310 C380 1420 520 1490 620 1520 Z%22 fill=%22%23b7a0e0%22 opacity=%22.5%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M680 1060 C660 1150 530 1190 380 1188 C270 1186 200 1150 160 1100 C200 1030 270 1000 350 1016 C460 1038 540 1020 590 990 C640 962 680 1000 680 1060 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%221240%22 cy=%221420%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.35%22 filter=%22url(%23b3)%22/%3E %3C/svg%3E") top center / max(100%, 1600px) 1800px repeat-y; --dv-glass: color-mix(in srgb, var(--color-panel) 30%, transparent); --dv-glass-strong: color-mix(in srgb, var(--color-panel) 45%, transparent); --dv-glass-line: color-mix(in srgb, #ffffff 10%, transparent); --dv-glow-3: color-mix(in srgb, #d9c8f0 18%, transparent); } }
+  :root[data-theme="dark"] .dv { background: linear-gradient(color-mix(in srgb, #150f1c 82%, transparent), color-mix(in srgb, #150f1c 82%, transparent)), url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1600 1800%22 preserveAspectRatio=%22xMidYMid slice%22%3E %3Cdefs%3E %3Cfilter id=%22b1%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2270%22/%3E%3C/filter%3E %3Cfilter id=%22b2%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2242%22/%3E%3C/filter%3E %3Cfilter id=%22b3%22 x=%22-60%25%22 y=%22-60%25%22 width=%22220%25%22 height=%22220%25%22%3E%3CfeGaussianBlur stdDeviation=%2295%22/%3E%3C/filter%3E %3C/defs%3E %3Crect width=%221600%22 height=%221800%22 fill=%22%23f6f4f9%22/%3E %3Cellipse cx=%221120%22 cy=%22700%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.75%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M820 820 C760 660 860 540 1030 490 C1190 440 1270 360 1380 280 C1440 360 1440 520 1340 610 C1220 720 1080 790 980 820 Z%22 fill=%22%23b7a0e0%22 opacity=%22.55%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M920 360 C940 450 1070 490 1220 488 C1330 486 1400 450 1440 400 C1400 330 1330 300 1250 316 C1140 338 1060 320 1010 290 C960 262 920 300 920 360 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%22360%22 cy=%22380%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.4%22 filter=%22url(%23b3)%22/%3E %3Cellipse cx=%22480%22 cy=%221260%22 rx=%22300%22 ry=%22190%22 fill=%22%23f1e3f8%22 opacity=%22.7%22 filter=%22url(%23b1)%22/%3E %3Cpath d=%22M780 1520 C840 1360 740 1240 570 1190 C410 1140 330 1060 220 980 C160 1060 160 1220 260 1310 C380 1420 520 1490 620 1520 Z%22 fill=%22%23b7a0e0%22 opacity=%22.5%22 filter=%22url(%23b2)%22/%3E %3Cpath d=%22M680 1060 C660 1150 530 1190 380 1188 C270 1186 200 1150 160 1100 C200 1030 270 1000 350 1016 C460 1038 540 1020 590 990 C640 962 680 1000 680 1060 Z%22 fill=%22%23ffffff%22 opacity=%22.95%22 filter=%22url(%23b2)%22/%3E %3Cellipse cx=%221240%22 cy=%221420%22 rx=%22260%22 ry=%22170%22 fill=%22%23e2d8f2%22 opacity=%22.35%22 filter=%22url(%23b3)%22/%3E %3C/svg%3E") top center / max(100%, 1600px) 1800px repeat-y; --dv-glass: color-mix(in srgb, var(--color-panel) 30%, transparent); --dv-glass-strong: color-mix(in srgb, var(--color-panel) 45%, transparent); --dv-glass-line: color-mix(in srgb, #ffffff 10%, transparent); --dv-glow-3: color-mix(in srgb, #d9c8f0 18%, transparent); }
+  .dv-glass, .dv-card, .dv-sage { background: var(--dv-glass); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); border: 1px solid var(--dv-glass-line); box-shadow: var(--dv-glass-shadow); }
+  .dv-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--cds-gap-md); }
+  .dv-head h1 { font-size: var(--cds-font-size-heading); font-weight: 500; margin: 0; }
+  .dv-head p { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); max-width: 60ch; }
+  .dv-head p b { font-weight: 500; color: var(--color-fg); }
+
+  .dv-refresh { display: inline-flex; align-items: center; gap: .6rem; margin: .5rem 0 .35rem; }
+  .dv-refresh-btn { appearance: none; cursor: pointer; display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 999px; border: 1px solid var(--dv-glass-line); background: var(--dv-glass-strong); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--color-fg); padding: 0; transition: background var(--cds-dur-slow); }
+  .dv-refresh-btn:hover:not(:disabled) { background: var(--dv-sage-soft); }
+  .dv-refresh-btn:disabled { cursor: default; }
+  .dv-refresh-btn svg { width: 1.1rem; height: 1.1rem; }
+  .dv-refresh-btn.is-spin svg { animation: dv-spin 1.1s linear infinite; }
+  @keyframes dv-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .dv-refresh-btn.is-spin svg { animation-duration: 3s; } }
+  .dv-refresh-st { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-crm-sub { font-size: var(--cds-font-size-body); font-weight: 500; margin: var(--cds-gap-lg) 0 .25rem; }
+  .dv-tabs { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .dv-tab { appearance: none; border: 1px solid var(--dv-glass-line); cursor: pointer; font: inherit; font-size: var(--cds-font-size-caption); border-radius: 999px; padding: .6rem 1.2rem; background: var(--dv-glass-strong); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--color-fg); transition: background var(--cds-dur-slow), color var(--cds-dur-slow); }
+  .dv-tab:hover { background: color-mix(in srgb, var(--color-fg) 14%, var(--color-panel)); }
+  .dv-tab[aria-selected="true"] { background: var(--dv-ink); color: var(--color-bg); }
+  .dv-tab:focus-visible, .dv-row:focus-visible { outline: 2px solid var(--dv-sage-deep); outline-offset: 2px; }
+
+  .dv-months { display: flex; flex-wrap: wrap; gap: .35rem; padding: .35rem; border-radius: 999px; background: var(--dv-glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid var(--dv-glass-line); width: fit-content; max-width: 100%; }
+  .dv-month { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: var(--cds-font-size-caption); border-radius: 999px; padding: .45rem .95rem; background: transparent; color: var(--color-fg-muted); transition: background var(--cds-dur-slow), color var(--cds-dur-slow); }
+  .dv-month:hover { background: var(--dv-chip); color: var(--color-fg); }
+  .dv-month[aria-pressed="true"] { background: var(--color-panel); color: var(--color-fg); box-shadow: 0 1px 6px color-mix(in srgb, var(--color-fg) 12%, transparent); }
+  .dv-month.add { font-size: var(--cds-font-size-body); line-height: 1; padding-inline: .8rem; }
+  .dv-month:focus-visible { outline: 2px solid var(--dv-sage-deep); outline-offset: 2px; }
+  .dv-days { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: -.75rem; }
+  .dv-day { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; min-width: 2rem; height: 2rem; border-radius: 999px; padding: 0 .55rem; background: transparent; color: var(--color-fg-muted); position: relative; transition: background var(--cds-dur-slow), color var(--cds-dur-slow); }
+  .dv-day:hover { background: var(--dv-chip); color: var(--color-fg); }
+  .dv-day.has { color: var(--color-fg); }
+  .dv-day.has::after { content: ""; position: absolute; left: 50%; bottom: .2rem; width: 3px; height: 3px; margin-left: -1.5px; border-radius: 50%; background: var(--dv-sage-deep); }
+  .dv-day[aria-pressed="true"] { background: var(--dv-ink); color: var(--color-bg); }
+  .dv-day[aria-pressed="true"]::after { background: var(--color-bg); }
+  .dv-day.all { padding-inline: .9rem; }
+  .dv-day:focus-visible { outline: 2px solid var(--dv-sage-deep); outline-offset: 2px; }
+  .dv-page { display: grid; gap: var(--cds-gap-xl); }
+  .dv-pill { display: inline-flex; align-items: center; gap: .4rem; border-radius: 999px; padding: .35rem .85rem; font-size: var(--cds-font-size-caption); background: var(--dv-glass-strong); border: 1px solid var(--dv-glass-line); color: var(--color-fg); white-space: nowrap; }
+  .dv-pill.dark { background: var(--dv-ink); color: var(--color-bg); }
+  .dv-pill.bad { background: color-mix(in srgb, var(--cds-chart-status-critical) 18%, var(--color-panel)); }
+  .dv-pill.ok { background: var(--dv-sage-soft); }
+  button.dv-pill { border: 0; cursor: pointer; font: inherit; font-size: var(--cds-font-size-caption); }
+
+  .dv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr)); gap: var(--cds-gap-lg); padding: var(--cds-pad-lg); border-radius: var(--dv-radius); background: var(--dv-glass); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); border: 1px solid var(--dv-glass-line); box-shadow: var(--dv-glass-shadow); }
+  .dv-kpi { display: grid; gap: .15rem; align-content: start; }
+  .dv-kpi > span { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-num { font-size: clamp(2rem, 1.4rem + 2vw, 2.9rem); font-weight: 300; letter-spacing: -.02em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .dv-unit { font-size: var(--cds-font-size-body); font-weight: 300; color: var(--color-fg-muted); margin-left: .25rem; }
+  .dv-kpi small { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-kpi small b { font-weight: 500; color: var(--color-fg); }
+
+  .dv-main { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--cds-gap-lg); align-items: start; }
+  .dv-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--cds-gap-lg); align-items: start; }
+  @media (max-width: 64rem) { .dv-main { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .dv-center { grid-column: 1 / -1; order: -1; } }
+  @media (max-width: 44rem) { .dv-main, .dv-two { grid-template-columns: minmax(0, 1fr); } }
+
+  .dv-card { border-radius: var(--dv-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); align-content: start; min-width: 0; }
+  .dv-card h2, .dv-sage h2 { font-size: var(--cds-font-size-caption); font-weight: 500; margin: 0; color: var(--color-fg-muted); letter-spacing: .02em; }
+  .dv-card > p, .dv-sage > p { margin: 0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-cardhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem; }
+
+  .dv-steps, .dv-list { display: grid; gap: .5rem; min-height: 12rem; }
+  .dv-step, .dv-row { display: grid; grid-template-columns: 1fr auto; gap: .35rem .75rem; align-items: center; padding: .8rem 1rem; border-radius: 1.1rem; background: var(--dv-glass-strong); border: 1px solid var(--dv-glass-line); transition: background var(--cds-dur-slow), opacity var(--cds-dur-slow); }
+  .dv-row { cursor: pointer; }
+  .dv-row:hover, .dv-row.dv-on { background: var(--dv-sage-soft); }
+  .dv-row.dv-picked { box-shadow: inset 0 0 0 1.5px var(--dv-ink); }
+  .dv-row-name, .dv-step-name { font-size: var(--cds-font-size-caption); }
+  .dv-row-val, .dv-step-val { font-size: var(--cds-font-size-body); font-weight: 300; font-variant-numeric: tabular-nums; text-align: right; }
+  .dv-row-val small, .dv-step-val small { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-ticks { grid-column: 1 / -1; position: relative; height: 1rem; }
+  .dv-ticks i { position: absolute; inset: 0; background: repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 6px); }
+  .dv-ticks .base { color: var(--dv-ink-soft); }
+  .dv-ticks .on { color: var(--dv-ink); right: auto; }
+  .dv-ticks .on.bad { color: var(--cds-chart-status-critical); }
+  .dv-ticks .goal { position: absolute; top: -4px; bottom: -4px; width: 2px; border-radius: 2px; background: var(--dv-ink); }
+  .dv-foot { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+
+  .dv-center { display: grid; gap: var(--cds-gap-lg); justify-items: center; min-width: 0; }
+  .dv-gauge { width: 100%; max-width: 26rem; aspect-ratio: 1; position: relative; }
+  .dv-gauge > div:first-child, .dv-gauge svg { width: 100%; height: 100%; display: block; }
+  .dv-gauge-label { position: absolute; inset: 22%; display: grid; place-content: center; text-align: center; gap: .2rem; pointer-events: none; }
+  .dv-gauge-label span { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-gauge-label .dv-num { font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem); color: var(--color-fg); }
+  .dv-bubbles { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .9rem; min-height: 9rem; width: 100%; }
+  .dv-bubble { position: relative; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--dv-glass-line), var(--dv-glass) 70%); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px var(--color-border-line); display: grid; place-content: center; text-align: center; font-size: var(--cds-font-size-caption); cursor: default; transition: transform var(--cds-dur-slow), opacity var(--cds-dur-slow); }
+  .dv-bubble b { position: absolute; top: -.35rem; left: -.2rem; font-weight: 400; background: var(--color-panel); border-radius: 999px; padding: .2rem .55rem; box-shadow: 0 1px 4px color-mix(in srgb, var(--color-fg) 10%, transparent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+  .dv-sage { border-radius: var(--dv-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-md); align-content: start; min-width: 0;
+    background: linear-gradient(165deg, color-mix(in srgb, #d6c9ec 30%, transparent), color-mix(in srgb, #a993d1 26%, transparent)); }
+  .dv-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cds-gap-md); }
+  .dv-pair > div { display: grid; gap: .1rem; }
+  .dv-pair span { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-pair .dv-num { font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.4rem); color: var(--color-fg); }
+  .dv-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); min-height: 1rem; }
+  .dv-legend span { display: inline-flex; align-items: center; gap: .35rem; }
+  .dv-sw { width: .6rem; height: .6rem; border-radius: 50%; display: inline-block; }
+  .dv-sw.a { background: var(--dv-ink-soft); }
+  .dv-sw.b { background: var(--dv-ink); }
+  .dv-chart { position: relative; min-height: 13rem; }
+  .dv-chart.tall { min-height: 16rem; }
+  .dv-ruler { position: relative; min-height: 2.3rem; }
+
+  .dv-hovering [data-k]:not(.dv-on) { opacity: .32; }
+  .dv-hovering .dv-ccard[data-k]:not(.dv-on) { opacity: 1; }
+  [data-k] { transition: opacity var(--cds-dur-slow); }
+  .dv-tip { position: absolute; z-index: 5; pointer-events: none; display: flex; align-items: center; gap: .65rem; padding: .5rem 1.1rem; border-radius: 1.6rem; white-space: nowrap;
+    color: #fff; font-size: var(--cds-font-size-body-sm, .9rem); font-weight: 300; letter-spacing: .01em;
+    background: rgba(98, 90, 84, .62); border: 1px solid rgba(255, 255, 255, .22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 10px 28px rgba(30, 24, 20, .22);
+    -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1); }
+  .dv-tip[hidden] { display: none; }
+  .dv-tip-tx { display: grid; gap: .05rem; line-height: 1.3; }
+  .dv-tip-tx div:first-child { color: rgba(255, 255, 255, .72); font-size: .92em; }
+  .dv-tip-tx div:only-child { color: #fff; font-size: 1em; }
+
+  .dv-lower { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--cds-gap-lg); align-items: start; }
+  @media (max-width: 52rem) { .dv-lower { grid-template-columns: minmax(0, 1fr); } }
+  .dv-pay { display: grid; gap: .5rem; min-height: 5rem; }
+  .dv-pay div { display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding: .7rem 1rem; border-radius: 999px; background: var(--dv-glass-strong); border: 1px solid var(--dv-glass-line); font-size: var(--cds-font-size-caption); }
+  .dv-pay div b { font-weight: 400; font-variant-numeric: tabular-nums; }
+  .dv-tablebox { overflow: auto; max-height: 26rem; }
+  .dv-table { width: 100%; border-collapse: separate; border-spacing: 0 .35rem; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .dv-table th { position: sticky; top: 0; z-index: 1; background: transparent; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); text-align: left; font-weight: 400; color: var(--color-fg-muted); padding: .3rem .8rem; white-space: nowrap; }
+  .dv-table td { white-space: normal; padding: .65rem .8rem; background: var(--dv-glass-strong); transition: background var(--cds-dur-slow); }
+  .dv-table tr:hover td { background: var(--dv-sage-soft); }
+  .dv-table td:first-child { border-radius: 999px 0 0 999px; padding-left: 1.1rem; }
+  .dv-table td:last-child { border-radius: 0 999px 999px 0; }
+  .dv-table .num { text-align: right; }
+  .dv-empty { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); padding: 1rem; border-radius: 1.1rem; background: var(--dv-glass-strong); border: 1px solid var(--dv-glass-line); }
+  .dv-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; max-width: 72ch; }
+  [data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+  @media (max-width: 30rem) { .dv-hide-sm { display: none; } }
+
+  /* estilo da referência: vidro com brilho na borda */
+  .dv-card, .dv-kpis, .dv-sage {
+    border-radius: 1.6rem;
+    background: linear-gradient(140deg, color-mix(in srgb, var(--color-panel) 44%, transparent), color-mix(in srgb, var(--color-panel) 12%, transparent) 60%, color-mix(in srgb, var(--color-panel) 22%, transparent));
+    border: 1px solid color-mix(in srgb, var(--color-panel) 75%, transparent);
+    box-shadow: inset 0 1px 1px color-mix(in srgb, #ffffff 85%, transparent), inset 0 0 28px color-mix(in srgb, #ffffff 30%, transparent), inset 0 -10px 24px color-mix(in srgb, #9a86c4 8%, transparent), 0 24px 60px color-mix(in srgb, #35234f 12%, transparent);
+  }
+  .dv-sage { background: linear-gradient(140deg, color-mix(in srgb, #d6c9ec 42%, transparent), color-mix(in srgb, #a993d1 26%, transparent) 60%, color-mix(in srgb, #c3b2e3 34%, transparent)); }
+  .dv-card h2, .dv-sage h2 { text-transform: uppercase; letter-spacing: .09em; font-weight: 400; font-size: calc(var(--cds-font-size-caption) * .95); color: color-mix(in srgb, var(--color-fg) 72%, transparent); }
+  .dv-kpi > span { text-transform: uppercase; letter-spacing: .08em; font-size: calc(var(--cds-font-size-caption) * .9); }
+  .dv-step, .dv-row { background: color-mix(in srgb, var(--color-panel) 22%, transparent); border: 1px solid color-mix(in srgb, var(--color-panel) 55%, transparent); box-shadow: inset 0 1px 0 color-mix(in srgb, #ffffff 60%, transparent); }
+  /* barras: linha fina com ponto no fim e traço de meta */
+  .dv-ticks { height: .9rem; }
+  .dv-ticks i { background: none; }
+  .dv-ticks i.base { top: 50%; bottom: auto; height: 1.5px; margin-top: -.75px; border-radius: 2px; background: color-mix(in srgb, var(--color-fg) 16%, transparent); }
+  .dv-ticks i.on { top: 50%; bottom: auto; height: 2px; margin-top: -1px; border-radius: 2px; background: color-mix(in srgb, var(--color-fg) 78%, transparent); }
+  .dv-ticks i.on.bad { background: var(--cds-chart-status-critical); }
+  .dv-ticks i.on::before { content: ""; position: absolute; left: -2px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%; background: currentColor; color: inherit; background: color-mix(in srgb, var(--color-fg) 78%, transparent); }
+  .dv-ticks i.on::after { content: ""; position: absolute; right: -3px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: var(--color-panel); box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-fg) 78%, transparent); }
+  .dv-ticks i.on.bad::before, .dv-ticks i.on.bad::after { background: var(--cds-chart-status-critical); }
+  .dv-ticks .goal { top: 15%; bottom: 15%; width: 1.5px; background: color-mix(in srgb, var(--color-fg) 55%, transparent); }
+  /* bolhas: vidro futurista tingido com a cor do closer */
+  .dv-bubble { --tint: 120, 140, 100; --tint-d: 70, 82, 55; color: #fff; display: grid; place-content: center; justify-items: center; gap: .15rem; text-shadow: 0 1px 6px rgba(var(--tint-d), .45);
+    background:
+      radial-gradient(90% 70% at 28% 18%, rgba(255,255,255,.22), rgba(255,255,255,0) 55%),
+      radial-gradient(80% 60% at 75% 90%, rgba(var(--tint-d), .55), rgba(var(--tint-d), 0) 70%),
+      linear-gradient(155deg, rgba(var(--tint), .82), rgba(var(--tint), .58) 55%, rgba(var(--tint-d), .78));
+    border: 0;
+    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.55), inset 0 0 0 1px rgba(255,255,255,.16), inset 0 -18px 30px rgba(var(--tint-d), .35), 0 18px 44px rgba(var(--tint), .38), 0 2px 6px rgba(var(--tint-d), .2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6); backdrop-filter: blur(16px) saturate(1.6);
+    transition: transform var(--cds-dur-slow), box-shadow var(--cds-dur-slow), filter var(--cds-dur-slow); }
+  .dv-bubble.dv-on { transform: scale(1.06); filter: brightness(1.08) saturate(1.1); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.7), inset 0 0 0 1px rgba(255,255,255,.22), inset 0 -18px 30px rgba(var(--tint-d), .3), 0 22px 56px rgba(var(--tint), .55), 0 0 0 6px rgba(var(--tint), .12); }
+  .dv-bub-val { font-weight: 300; font-size: clamp(1.05rem, .7rem + 1.2vw, 1.7rem); letter-spacing: -.01em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .dv-bub-val small { font-size: .5em; font-weight: 300; opacity: .85; margin-left: .15em; }
+  .dv-bub-name { display: inline-flex; align-items: center; gap: .35rem; font-size: calc(var(--cds-font-size-caption) * .85); text-transform: uppercase; letter-spacing: .1em; opacity: .92; }
+  .dv-bub-name i { width: .42rem; height: .42rem; border-radius: 50%; background: #e7d1ff; box-shadow: 0 0 0 3px rgba(231,209,255,.22), 0 0 10px rgba(231,209,255,.9); }
+
+  /* cartões dos closers no estilo de vidro da referência */
+  .dv-ccards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 10.5rem), 1fr)); gap: .9rem; width: 100%; }
+  .dv-ccard { --tint: 120, 140, 100; --tint-d: 70, 82, 55; position: relative; display: grid; align-content: space-between; gap: .6rem; min-height: 9.5rem; padding: 1rem 1.1rem 1.05rem; border-radius: 1.6rem; color: #fff; text-shadow: 0 1px 2px rgba(var(--tint-d), .55), 0 0 12px rgba(var(--tint-d), .35);
+    background: linear-gradient(120deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,.04) 38%, rgba(255,255,255,0) 60%), radial-gradient(80% 60% at 85% 100%, rgba(var(--tint-d), .2), rgba(var(--tint-d), 0) 70%), linear-gradient(155deg, rgba(var(--tint), .4), rgba(var(--tint), .2) 55%, rgba(var(--tint-d), .3));
+    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.6), inset 0 0 0 1px rgba(255,255,255,.28), inset 0 -14px 26px rgba(var(--tint-d), .12), 0 14px 36px rgba(var(--tint), .18);
+    -webkit-backdrop-filter: blur(10px) saturate(1.3); backdrop-filter: blur(10px) saturate(1.3);
+    transition: filter var(--cds-dur-slow), box-shadow var(--cds-dur-slow), transform var(--cds-dur-slow); }
+  .dv-ccard.dv-on { transform: translateY(-2px); background-color: rgba(var(--tint), .14); box-shadow: inset 0 1.5px 0 rgba(255,255,255,.75), inset 0 0 0 1px rgba(255,255,255,.4), inset 0 -14px 26px rgba(var(--tint-d), .14), 0 22px 50px rgba(var(--tint), .32); }
+  .dv-ccard.open { grid-column: 1 / -1; min-height: 0; }
+  .dv-cc-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .dv-cc-name { display: inline-flex; align-items: center; gap: .4rem; font-size: calc(var(--cds-font-size-caption) * .9); text-transform: uppercase; letter-spacing: .1em; }
+  .dv-cc-name i { width: .42rem; height: .42rem; border-radius: 50%; background: #e7d1ff; box-shadow: 0 0 0 3px rgba(231,209,255,.22), 0 0 10px rgba(231,209,255,.9); }
+  .dv-cc-exp { appearance: none; border: 0; background: transparent; color: #fff; width: 1.7rem; height: 1.7rem; display: grid; place-items: center; border-radius: 50%; cursor: pointer; transition: background var(--cds-dur-slow); }
+  .dv-cc-exp:hover { background: rgba(255,255,255,.18); }
+  .dv-cc-exp:focus-visible { outline: 2px solid rgba(255,255,255,.8); outline-offset: 2px; }
+  .dv-cc-exp svg { width: 1rem; height: 1rem; }
+  .dv-cc-val { font-weight: 300; font-size: clamp(1.6rem, 1.1rem + 1.4vw, 2.3rem); line-height: 1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .dv-cc-val small { font-size: .42em; margin-left: .2em; opacity: .85; }
+  .dv-cc-sub { font-size: calc(var(--cds-font-size-caption) * .95); opacity: .88; }
+  .dv-cc-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem; padding-top: .4rem; border-top: 1px solid rgba(255,255,255,.22); }
+  @media (prefers-reduced-motion: no-preference) { .dv-cc-detail { animation: dvOpen var(--cds-dur-slow) var(--cds-ease-out, ease-out); } }
+  @keyframes dvOpen { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  .dv-cc-detail h3 { margin: 0 0 .35rem; font-size: calc(var(--cds-font-size-caption) * .85); font-weight: 400; text-transform: uppercase; letter-spacing: .1em; opacity: .85; }
+  .dv-cc-list { display: grid; gap: .25rem; max-height: 15rem; overflow: auto; padding-right: .2rem; }
+  .dv-cc-item { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; gap: .5rem; align-items: center; padding: .35rem .55rem; border-radius: .7rem; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.18); font-size: var(--cds-font-size-caption); }
+  .dv-cc-item span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dv-cc-item b { font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .dv-cc-item em { font-style: normal; font-size: .85em; padding: .1rem .45rem; border-radius: 999px; background: rgba(255,255,255,.2); white-space: nowrap; }
+  .dv-cc-item em.no { background: rgba(60,20,20,.25); }
+  .dv-cc-empty { font-size: var(--cds-font-size-caption); opacity: .8; }
+
+  /* halo claro atrás do círculo central */
+  .dv-gauge::before { content: ""; position: absolute; inset: -12%; border-radius: 50%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, color-mix(in srgb, var(--color-panel) 78%, transparent), color-mix(in srgb, var(--color-panel) 40%, transparent) 55%, transparent 100%); }
+  .dv-gauge { isolation: isolate; }
+  /* indicadores no estilo Apple: linha fina, orbe luminoso, alerta âmbar */
+  .dv-ticks i.on::before { content: none; }
+  .dv-ticks i.base { height: 3px; margin-top: -1.5px; border-radius: 3px; background: color-mix(in srgb, var(--color-fg) 9%, transparent); box-shadow: inset 0 0.5px 0 color-mix(in srgb, #ffffff 60%, transparent); }
+  .dv-ticks i.on { height: 3px; margin-top: -1.5px; border-radius: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--color-fg) 35%, transparent), color-mix(in srgb, var(--color-fg) 80%, transparent)); }
+  .dv-ticks i.on::after { right: -5px; width: 10px; height: 10px; margin-top: -5px; background: radial-gradient(circle at 35% 30%, #ffffff, #f1f3ec 60%, #dfe3d6); box-shadow: 0 0 0 0.5px color-mix(in srgb, var(--color-fg) 25%, transparent), 0 1px 3px color-mix(in srgb, #25173a 25%, transparent); }
+  .dv-ticks i.on.bad { background: linear-gradient(90deg, rgba(255, 196, 102, .55), #ff9f5a 70%, #ff7a59); box-shadow: 0 0 10px rgba(255, 150, 90, .35); }
+  .dv-ticks i.on.bad::after { background: radial-gradient(circle at 35% 30%, #fff6e8, #ffb27a 55%, #ff8a5c); box-shadow: 0 0 0 3px rgba(255, 159, 90, .18), 0 0 12px rgba(255, 140, 80, .65); }
+  .dv-ticks .goal { width: 1px; top: 10%; bottom: 10%; background: color-mix(in srgb, var(--color-fg) 35%, transparent); }
+  .dv-pill.bad { background: color-mix(in srgb, var(--color-panel) 45%, transparent); border: 1px solid color-mix(in srgb, #ffb27a 45%, transparent); color: color-mix(in srgb, #9a4a1c 85%, var(--color-fg)); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .dv-pill.bad::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff1df, #ff9f5a 60%, #ff7a59); box-shadow: 0 0 8px rgba(255, 140, 80, .8); }
+  .dv-pill.ok { background: color-mix(in srgb, var(--color-panel) 45%, transparent); border: 1px solid color-mix(in srgb, #a98be0 40%, transparent); }
+  .dv-pill.ok::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f6efff, #a98be0 60%, #6e4fb0); box-shadow: 0 0 8px rgba(150, 110, 210, .7); }
+
+  /* pontos chapados, sem efeito 3D */
+  .dv-ticks i.on::after { right: -4px; width: 8px; height: 8px; margin-top: -4px; background: var(--color-panel); box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-fg) 75%, transparent); }
+  .dv-ticks i.on.bad { background: #ff9a5c; box-shadow: none; }
+  .dv-ticks i.on.bad::after { background: #ff9a5c; box-shadow: 0 0 0 3px rgba(255, 154, 92, .22); }
+  .dv-ticks i.on { background: color-mix(in srgb, var(--color-fg) 72%, transparent); }
+  .dv-pill.bad::before { background: #ff9a5c; box-shadow: none; }
+  .dv-pill.ok::before { background: #9b7fd4; box-shadow: none; }
+
+  .dv-cc-note { grid-column: 2 / -1; font-size: .85em; opacity: .8; margin-top: -.15rem; }
+  .dv-cc-sub { grid-column: 2 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-top: -.1rem; font-size: .85em; }
+  .dv-cc-sub span { opacity: .8; }
+  .dv-cc-tag { font-style: normal; padding: .08rem .5rem; border-radius: 999px; background: rgba(var(--tint, 120,90,200), .22); white-space: nowrap; }
+  .dv-cc-tag.vazio { opacity: .6; }
+
+  /* legibilidade: texto escuro sobre o vidro claro (funciona no celular) */
+  .dv-ccard { color: var(--color-fg); text-shadow: none;
+    background: linear-gradient(120deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,.28) 45%, rgba(255,255,255,.18)), linear-gradient(155deg, rgba(var(--tint), .30), rgba(var(--tint), .14) 60%, rgba(var(--tint-d), .22));
+    box-shadow: inset 0 1.5px 0 rgba(255,255,255,.8), inset 0 0 0 1px rgba(var(--tint), .35), 0 14px 36px rgba(var(--tint-d), .14); }
+  .dv-cc-name { color: rgb(var(--tint-d)); font-weight: 500; }
+  .dv-cc-name i { background: rgb(var(--tint)); box-shadow: 0 0 0 3px rgba(var(--tint), .25); }
+  .dv-cc-exp { color: rgb(var(--tint-d)); }
+  .dv-cc-exp:hover { background: rgba(var(--tint), .18); }
+  .dv-cc-val small, .dv-cc-sub { color: color-mix(in srgb, var(--color-fg) 70%, transparent); opacity: 1; }
+  .dv-cc-detail { border-top-color: rgba(var(--tint-d), .2); }
+  .dv-cc-detail h3 { color: rgb(var(--tint-d)); opacity: 1; font-weight: 500; }
+  .dv-cc-item { background: rgba(255,255,255,.55); border-color: rgba(var(--tint), .25); color: var(--color-fg); }
+  .dv-cc-item em { background: rgba(var(--tint), .22); color: rgb(var(--tint-d)); }
+  .dv-cc-item em.no { background: rgba(255, 154, 92, .18); color: #9a4a1c; }
+  .dv-cc-note, .dv-cc-empty { color: color-mix(in srgb, var(--color-fg) 65%, transparent); opacity: 1; }
+  .dv-ccard.dv-on { background: linear-gradient(120deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.3) 45%, rgba(255,255,255,.2)), linear-gradient(155deg, rgba(var(--tint), .38), rgba(var(--tint), .2) 60%, rgba(var(--tint-d), .28)); }
+  @media (max-width: 40rem) { .dv-cc-item { grid-template-columns: 2.4rem minmax(0, 1fr); } .dv-cc-item b, .dv-cc-item em { grid-column: 2; justify-self: start; } }
+
+  .dv-cc-link { grid-column: 2 / -1; font-size: .85em; color: rgb(var(--tint-d)); text-decoration: none; margin-top: -.1rem; }
+  .dv-cc-link::before { content: "▶ "; font-size: .8em; }
+  .dv-cc-link:hover { text-decoration: underline; }
+
+  .dv-cc-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; padding-top: .5rem; border-top: 1px solid rgba(var(--tint-d), .2); }
+  .dv-cc-stat { display: grid; gap: .1rem; padding: .55rem .7rem; border-radius: .9rem; background: rgba(255,255,255,.5); border: 1px solid rgba(var(--tint), .25); }
+  .dv-cc-stat b { font-weight: 300; font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem); line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--color-fg); }
+  .dv-cc-stat span { font-size: calc(var(--cds-font-size-caption) * .85); text-transform: uppercase; letter-spacing: .06em; color: rgb(var(--tint-d)); }
+  .dv-cc-stat small { font-size: calc(var(--cds-font-size-caption) * .9); color: color-mix(in srgb, var(--color-fg) 60%, transparent); }
+  @media (max-width: 34rem) { .dv-cc-stats { grid-template-columns: 1fr; } }
+
+  .dv-kpis-md { grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+  .dv-kpis-md .dv-num { font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); }
+  /* no computador: os 8 indicadores de mídia numa linha só, com fonte menor */
+  @media (min-width: 1000px) {
+    .dv-kpis-md { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: var(--cds-gap-md, 1rem); }
+    .dv-kpis-md .dv-num { font-size: clamp(1.15rem, .6rem + 1vw, 1.6rem); white-space: nowrap; }
+    .dv-kpis-md .dv-kpi > span { font-size: calc(var(--cds-font-size-caption) * .8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dv-kpis-md .dv-kpi small { font-size: calc(var(--cds-font-size-caption) * .85); }
+  }
+  .dv-kpis-md .dv-kpi small { white-space: pre-line; line-height: 1.35; }
+  @media (min-width: 1000px) {
+  }
+
+  /* estilo da referência "Breath rate": vidro esfumaçado, texto branco, linha fina */
+  .dv-ccard { color: #fff; text-shadow: 0 1px 2px rgba(20, 16, 30, .25); gap: .35rem; min-height: 11rem; border-radius: 1.5rem; padding: 1.1rem 1.15rem 1rem;
+    background: linear-gradient(165deg, rgba(var(--tint), .30), rgba(var(--tint-d), .22) 45%, rgba(28, 24, 38, .42));
+    border: 1px solid rgba(255, 255, 255, .32);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 18px 40px rgba(28, 20, 50, .18);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15); backdrop-filter: blur(18px) saturate(1.15); }
+  .dv-ccard.dv-on { background: linear-gradient(165deg, rgba(var(--tint), .38), rgba(var(--tint-d), .28) 45%, rgba(28, 24, 38, .46)); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 22px 50px rgba(28, 20, 50, .26); }
+  .dv-cc-name { color: #fff; font-weight: 400; font-size: var(--cds-font-size-body); text-transform: none; letter-spacing: .01em; }
+  .dv-cc-exp { width: 2.1rem; height: 2.1rem; color: #fff; background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .28); }
+  .dv-cc-exp:hover { background: rgba(255, 255, 255, .26); }
+  .dv-cc-exp svg { width: .85rem; height: .85rem; }
+  .dv-cc-status { display: flex; justify-content: space-between; align-items: center; gap: .5rem; margin-top: .35rem; font-size: calc(var(--cds-font-size-caption) * .95); color: rgba(255, 255, 255, .72); }
+  .dv-cc-pill { display: inline-flex; align-items: center; gap: .35rem; color: rgba(255, 255, 255, .9); }
+  .dv-cc-pill i { width: .4rem; height: .4rem; border-radius: 50%; background: rgb(var(--tint)); box-shadow: 0 0 0 2px rgba(255,255,255,.25), 0 0 8px rgba(var(--tint), .9); filter: brightness(1.35); }
+  .dv-cc-val { color: #fff; font-weight: 200; }
+  .dv-cc-val small, .dv-cc-sub { color: rgba(255, 255, 255, .7); }
+  .dv-cc-spark { position: relative; height: 2.75rem; margin-top: .2rem; cursor: crosshair; touch-action: pan-y; }
+  .dv-cc-dot { position: absolute; width: .5rem; height: .5rem; margin: -.25rem 0 0 -.25rem; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px rgb(var(--tint)), 0 0 8px rgba(var(--tint), .8); pointer-events: none; }
+  .dv-cc-lab { position: absolute; bottom: calc(100% + .2rem); transform: translateX(-50%); white-space: nowrap; padding: .15rem .45rem; border-radius: .5rem; font-size: calc(var(--cds-font-size-caption) * .9); color: #fff; text-shadow: none; background: rgba(28, 24, 38, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); pointer-events: none; }
+  .dv-cc-spark svg { width: 100%; height: 100%; display: block; overflow: visible; }
+  .dv-cc-spark polyline { fill: none; stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .dv-cc-spark line.ref { stroke: #fff; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .dv-cc-spark line.zero { stroke-opacity: .45; }
+  .dv-cc-spark line.meta { stroke-opacity: .8; stroke-dasharray: 5 4; }
+  .dv-cc-spark line.media { stroke-opacity: .65; stroke-dasharray: 1.5 3; }
+  /* etiquetas de meta e média: escondidas no cartão pequeno (aparecem só no hover); no cartão aberto ficam à direita, fora do desenho */
+  .dv-pair small.dv-sub { display: block; margin-top: .15rem; font-size: var(--cds-font-size-caption); opacity: .7; }
+  .dv-cc-ref { display: none; position: absolute; left: 100%; padding-left: .5rem; transform: translateY(-50%); white-space: nowrap; font-size: calc(var(--cds-font-size-caption) * .8); line-height: 1; color: rgba(255, 255, 255, .8); pointer-events: none; }
+  .dv-ccard.open .dv-cc-spark { margin-right: 4.5rem; }
+  .dv-ccard.open .dv-cc-ref { display: block; }
+  .dv-cc-spark polyline.a { stroke: rgba(255, 255, 255, .85); }
+  .dv-cc-spark polyline.b { stroke: rgb(var(--tint)); filter: brightness(1.45) saturate(1.2); }
+  .dv-cc-detail { border-top-color: rgba(255, 255, 255, .22); }
+  .dv-cc-detail h3 { color: rgba(255, 255, 255, .78); }
+  .dv-cc-stats { border-top-color: rgba(255, 255, 255, .22); }
+  .dv-cc-stat { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .22); }
+  .dv-cc-stat b { color: #fff; font-weight: 200; }
+  .dv-cc-stat span { color: rgba(255, 255, 255, .78); }
+  .dv-cc-stat small { color: rgba(255, 255, 255, .62); }
+  .dv-cc-item { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .18); color: #fff; }
+  .dv-cc-item em { background: rgba(255, 255, 255, .18); color: #fff; }
+  .dv-cc-item em.no { background: rgba(255, 154, 92, .28); color: #fff; }
+  .dv-cc-note, .dv-cc-empty { color: rgba(255, 255, 255, .7); }
+  .dv-cc-link { color: rgba(255, 255, 255, .9); }
+
+  /* comparador */
+  .dv-tab-cmp { background: rgba(128, 52, 200, .12); color: #5b2c95; border-color: rgba(128, 52, 200, .28); -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2); }
+  .dv-tab-cmp:hover { background: rgba(128, 52, 200, .2); }
+  .dv-tab-cmp[aria-selected="true"] { background: #4a3e5c; color: #fff; border-color: rgba(255, 255, 255, .22); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 8px 22px rgba(60, 44, 84, .3); }
+  .dv-month.cmp-a[aria-pressed="true"] { background: rgba(178, 156, 246, .55); color: #2a1450; }
+  .dv-month.cmp-b[aria-pressed="true"] { background: #4a3e5c; color: #fff; }
+  .dv-cmp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: var(--cds-gap-xl); align-items: start; }
+  @media (max-width: 900px) { .dv-cmp { grid-template-columns: minmax(0, 1fr); } }
+  .dv-cmp-side { position: sticky; top: 1rem; display: grid; gap: var(--cds-gap-md); }
+  .dv-cmp-side > h3, .dv-cmp-moves h3, .dv-cmp-bh h3 { margin: 0; font-size: calc(var(--cds-font-size-caption) * .9); font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--color-fg-muted); }
+  .dv-cmp-score { border-radius: 1.5rem; padding: 1.1rem 1.2rem; display: grid; gap: .2rem; border: 1px solid rgba(255,255,255,.4); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 12px 30px rgba(60, 30, 110, .1); }
+  .dv-cmp-score.a { background: linear-gradient(160deg, rgba(178, 156, 246, .38), rgba(226, 220, 238, .3)); }
+  .dv-cmp-score.b { background: linear-gradient(160deg, rgba(128, 52, 200, .32), rgba(90, 125, 232, .18)); }
+  .dv-cmp-sn { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-cmp-big { font-size: clamp(1.8rem, 1.2rem + 1.6vw, 2.6rem); font-weight: 200; line-height: 1.1; }
+  .dv-cmp-score small { white-space: pre-line; line-height: 1.4; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+  .dv-cmp-moves { display: grid; gap: .4rem; padding: 1rem 1.1rem; border-radius: 1.5rem; background: var(--dv-glass); border: 1px solid var(--dv-glass-line); }
+  .dv-cmp-move { display: flex; justify-content: space-between; font-size: var(--cds-font-size-caption); }
+  .dv-cmp-move b { font-weight: 500; }
+  .dv-cmp-move.up b, .dv-cmp-d.up { color: #3c8a5a; }
+  .dv-cmp-move.down b, .dv-cmp-d.down { color: #d0702c; }
+  .dv-cmp-main { display: grid; gap: var(--cds-gap-lg); min-width: 0; }
+  .dv-cmp-block { display: grid; gap: .15rem; padding: 1.1rem 1.2rem; border-radius: var(--dv-radius); background: var(--dv-glass); border: 1px solid var(--dv-glass-line); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); box-shadow: var(--dv-glass-shadow); }
+  .dv-cmp-bh { display: grid; grid-template-columns: minmax(0, 1.6fr) 6.5rem 6.5rem 4.5rem minmax(0, 1.2fr); align-items: center; gap: .6rem; padding-bottom: .5rem; }
+  .dv-cmp-key { font-size: calc(var(--cds-font-size-caption) * .9); text-align: right; color: var(--color-fg-muted); }
+  .dv-cmp-key::before { content: ''; display: inline-block; width: .5rem; height: .5rem; border-radius: 50%; margin-right: .35rem; vertical-align: middle; }
+  .dv-cmp-key.a::before { background: rgb(178, 156, 246); }
+  .dv-cmp-key.b::before { background: rgb(128, 52, 200); }
+  .dv-cmp-note { margin: 0 0 .4rem; font-size: calc(var(--cds-font-size-caption) * .9); color: var(--color-fg-muted); }
+  .dv-cmp-row { display: grid; grid-template-columns: minmax(0, 1.6fr) 6.5rem 6.5rem 4.5rem minmax(0, 1.2fr); align-items: center; gap: .6rem; padding: .45rem .2rem; border-top: 1px solid var(--dv-glass-line); font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .dv-cmp-row:hover { background: rgba(178, 156, 246, .1); }
+  .dv-cmp-lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dv-cmp-v { text-align: right; white-space: nowrap; }
+  .dv-cmp-v.b { font-weight: 500; }
+  .dv-cmp-d { text-align: right; font-size: calc(var(--cds-font-size-caption) * .92); color: var(--color-fg-muted); }
+  .dv-cmp-bars { display: grid; gap: 3px; }
+  .dv-cmp-bars i { display: block; height: 5px; border-radius: 3px; min-width: 2px; }
+  .dv-cmp-bars i.a { background: rgb(178, 156, 246); }
+  .dv-cmp-bars i.b { background: rgb(128, 52, 200); }
+  @media (max-width: 640px) {
+    .dv-cmp-bh, .dv-cmp-row { grid-template-columns: minmax(0, 1fr) 5.2rem 5.2rem 3.6rem; }
+    .dv-cmp-bars, .dv-cmp-bh > :nth-child(5) { display: none; }
+  }
+
+  /* fileira de janelinhas nas abas Closers e Pré-vendas */
+  .dv-cardsrow { display: block; }
+  .dv-ccards.wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); }
+
+  /* tema pré-vendas: roxo escuro em degradê, manchas lilás claras, texto branco e cinza bem claro */
+  .dv.dv.dv.dv {
+    --color-fg: #f6f3fb; --color-fg-muted: #cdc5db; --color-bg: #1c1130; --color-panel: #2b1c45; --color-border-line: rgba(255,255,255,.14);
+    --dv-ink: #efe7fb; --dv-ink-soft: rgba(239,231,251,.28); --dv-chip: rgba(255,255,255,.1); --dv-ground: rgba(255,255,255,.04);
+    --dv-glass: rgba(255,255,255,.07); --dv-glass-strong: rgba(255,255,255,.11); --dv-glass-line: rgba(255,255,255,.16);
+    --dv-glass-shadow: 0 10px 40px rgba(8,3,18,.35), inset 0 1px 0 rgba(255,255,255,.1);
+    color: var(--color-fg);
+    background:
+      radial-gradient(38% 30% at 82% 18%, rgba(214,196,250,.34), transparent 70%),
+      radial-gradient(32% 26% at 70% 34%, rgba(240,232,255,.16), transparent 70%),
+      radial-gradient(40% 30% at 16% 72%, rgba(196,170,245,.26), transparent 72%),
+      radial-gradient(30% 24% at 30% 86%, rgba(236,228,250,.12), transparent 70%),
+      linear-gradient(160deg, #241338 0%, #2f1752 45%, #1a0e2b 100%) !important;
+  }
+  .dv-sage { background: linear-gradient(140deg, rgba(200,180,245,.2), rgba(150,115,220,.16) 60%, rgba(215,200,250,.18)) !important; }
+  .dv-step, .dv-row { background: rgba(255,255,255,.06) !important; border-color: rgba(255,255,255,.12) !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important; }
+  .dv-month[aria-pressed="true"] { background: rgba(255,255,255,.16); color: #fff; box-shadow: none; }
+  .dv-tab { color: #f6f3fb; }
+  .dv-tab[aria-selected="true"], .dv-day[aria-pressed="true"], .dv-pill.dark { background: #efe7fb; color: #2a1450; }
+  .dv-tab-cmp { background: rgba(200,170,255,.16); color: #e6d8ff; border-color: rgba(220,200,255,.3); }
+  .dv-tab-cmp[aria-selected="true"] { background: #efe7fb; color: #2a1450; }
+  .dv-month.cmp-b[aria-pressed="true"] { background: #efe7fb; color: #2a1450; }
+  .dv-cmp-score { border-color: rgba(255,255,255,.18); }
+  .dv-cmp-move.up b, .dv-cmp-d.up { color: #8fe0ad; }
+  .dv-cmp-move.down b, .dv-cmp-d.down { color: #ffb07a; }
+  .dv-pill.bad { color: #ffd0ad; }
+  .dv-table td, .dv-table th { border-color: rgba(255,255,255,.1); }
+  .dv a { color: #e2d3ff; }
+</style>
+
+<div class="dv">
+  <div class="dv-bgwave" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="dv-tip" data-draw="tip"></div>
+
+  <header class="dv-head">
+    <div>
+      <h1>Pré-vendas D-Valor · <span data-draw="mes-nome">—</span></h1>
+      <p><span data-draw="mes-nome2">—</span> está em <b data-draw="fat" data-source="resumo" data-field="faturamento" data-where="periodo=2026-10">—</b> de <b data-draw="meta">—</b>. Passe o mouse em qualquer gráfico pra destacar, e clique numa pessoa pra filtrar a aba.</p>
+    </div>
+    <nav class="dv-tabs" role="tablist" aria-label="Áreas">
+      <button class="dv-tab dv-tab-cmp" role="tab" data-tab="comparar" aria-selected="false">Comparador</button>
+      <button class="dv-tab" role="tab" data-tab="geral" aria-selected="true">Visão geral</button>
+      <button class="dv-tab" role="tab" data-tab="prevendas" aria-selected="false">Pré-vendas</button>
+    </nav>
+  </header>
+
+  <nav class="dv-months" aria-label="Mês" data-draw="meses"></nav>
+  <nav class="dv-days" aria-label="Dia" data-draw="dias" data-source="funil_diario prevendas_diario"></nav>
+
+  <!-- COMPARADOR -->
+  <section class="dv-page" id="comparar" role="tabpanel" hidden>
+    <div class="dv-cmp" data-draw="cmp" data-source="resumo pv_pessoa"></div>
+  </section>
+
+  <!-- VISÃO GERAL -->
+  <section class="dv-page" id="geral" role="tabpanel">
+    <div class="dv-kpis">
+      <div class="dv-kpi">
+        <span>Faturamento</span>
+        <div><span class="dv-num" data-draw="fatk" data-source="resumo" data-field="faturamento" data-where="periodo=2026-10">—</span><span class="dv-unit">mil</span></div>
+        <small>Novas <b data-draw="fatnov" data-source="resumo" data-field="fat_novas" data-where="periodo=2026-10">—</b> · Recorrente <b data-draw="fatrec" data-source="resumo" data-field="fat_recorrente" data-where="periodo=2026-10">—</b></small>
+      </div>
+      <div class="dv-kpi">
+        <span>Falta pra meta</span>
+        <div><span class="dv-num" data-draw="faltak" data-source="resumo" data-field="falta" data-where="periodo=2026-10">—</span><span class="dv-unit">mil</span></div>
+        <small>Meta de <b data-draw="meta">—</b></small>
+      </div>
+      <div class="dv-kpi">
+        <span>Vendas novas</span>
+        <div><span class="dv-num" data-draw="vendas" data-source="resumo" data-field="vendas_novas" data-where="periodo=2026-10">—</span><span class="dv-unit">/ <span data-draw="metavendas">—</span></span></div>
+        <small>Meta de vendas no mês</small>
+      </div>
+      <div class="dv-kpi">
+        <span>Conversão</span>
+        <div><span class="dv-num" data-draw="conv" data-source="resumo" data-field="conversao" data-where="periodo=2026-10">—</span><span class="dv-unit">%</span></div>
+        <small>Vendas ÷ reuniões feitas</small>
+      </div>
+    </div>
+
+    <div class="dv-main">
+      <section class="dv-card dv-scope" id="funil">
+        <h2>Funil por etapa</h2>
+        <p>Média por dia, só nos dias registrados. O traço é a meta diária.</p>
+        <div class="dv-steps" data-draw="funil" data-source="etapas">—</div>
+      </section>
+
+      <section class="dv-center dv-scope" id="meta-mes">
+        <div class="dv-gauge">
+          <div data-draw="gauge-geral" data-source="por_closer"></div>
+          <div class="dv-gauge-label">
+            <span data-draw="meta-label">—</span>
+            <div><span class="dv-num" data-draw="metapct" data-source="resumo" data-field="meta_pct" data-where="periodo=2026-10">—</span><span class="dv-unit">%</span></div>
+            <span><span data-draw="fat" data-source="resumo" data-field="faturamento" data-where="periodo=2026-10">—</span> de <span data-draw="meta">—</span></span>
+          </div>
+        </div>
+        <div class="dv-ccards" data-draw="bubbles" data-source="por_closer vendas reunioes closer_diario" aria-label="Closers">—</div>
+        <p class="dv-note">Cada fatia do círculo é um closer. Clique na seta de um closer pra ver com quem ele teve reunião e quem fechou no período.</p>
+      </section>
+
+      <section class="dv-sage" id="reunioes">
+        <h2>Reuniões</h2>
+        <div class="dv-pair">
+          <div>
+            <span>Agendadas por dia</span>
+            <div><span class="dv-num" data-draw="mag" data-source="etapas" data-field="media" data-where="periodo=2026-10&amp;etapa=Agendada (Aline)">—</span><span class="dv-unit">/ <span data-draw="meta13">—</span></span></div>
+          </div>
+          <div>
+            <span>Feitas por dia</span>
+            <div><span class="dv-num" data-draw="mre" data-source="etapas" data-field="media" data-where="periodo=2026-10&amp;etapa=Reunião feita (closer)">—</span><span class="dv-unit">/ <span data-draw="meta8">—</span></span></div>
+          </div>
+        </div>
+        <div class="dv-legend">
+          <span><i class="dv-sw a"></i>Agendadas</span>
+          <span><i class="dv-sw b"></i>Feitas</span>
+        </div>
+        <div class="dv-chart" data-draw="diario" data-source="funil_diario"></div>
+        <h2>Comparecimento</h2>
+        <p>Reuniões feitas ÷ agendadas. O traço maior marca a meta.</p>
+        <div class="dv-ruler" data-draw="ruler" data-source="resumo"></div>
+      </section>
+    </div>
+
+    <div class="dv-lower">
+      <section class="dv-card" id="pagamento">
+        <h2>Forma de pagamento</h2>
+        <p>Vendas por forma de pagamento informada pelo closer.</p>
+        <div class="dv-pay" data-draw="pagamento" data-source="por_pagamento">—</div>
+      </section>
+      <section class="dv-card" id="vendas">
+        <h2>Vendas do mês</h2>
+        <p>Lista oficial da Aline, sem o nome dos clientes.</p>
+        <div class="dv-tablebox">
+          <table class="dv-table" data-source="vendas" data-row-key="n">
+            <thead><tr>
+              <th data-field="tipo">Tipo</th>
+              <th data-field="closer">Closer</th>
+              <th data-field="funil" class="dv-hide-sm">Funil</th>
+              <th data-field="valor" class="num">Valor</th>
+              <th data-field="pagamento" class="dv-hide-sm">Pagamento</th>
+            </tr></thead>
+            <tbody data-draw="tabela"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="dv-card" id="crm-kommo">
+      <h2>Funil do Direct no Kommo</h2>
+      <p>Leads do Instagram Direct que entraram no Kommo no mês e até que etapa chegaram, lidos do painel do Caio. Na última linha, o que a pré-venda relatou de agendados no mesmo mês, para comparar com o que está registrado no CRM.</p>
+      <div class="dv-tablebox">
+        <table class="dv-table" data-source="crm_funil_diario">
+          <thead><tr>
+            <th data-field="etapa">Etapa</th>
+            <th data-field="quantidade">No mês</th>
+            <th data-field="conversao">Da etapa anterior</th>
+          </tr></thead>
+          <tbody data-draw="crm-funil" data-source="crm_funil_diario prevendas_diario"></tbody>
+        </table>
+      </div>
+      <h3 class="dv-crm-sub">Anúncios que mais trouxeram leads</h3>
+      <p>Só os leads em que o Kommo guardou o anúncio de origem; os demais entram no total acima, mas em nenhum anúncio.</p>
+      <div class="dv-tablebox">
+        <table class="dv-table" data-source="midia_anuncios" data-row-key="anuncio_id">
+          <thead><tr>
+            <th data-field="campanha">Campanha</th>
+            <th data-field="anuncio">Anúncio</th>
+            <th data-field="leads">Leads</th>
+            <th data-field="cliques" class="dv-hide-sm">Cliques</th>
+            <th data-field="ctr">CTR</th>
+          </tr></thead>
+          <tbody data-draw="crm-anuncios" data-source="midia_anuncios"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="dv-card" id="conferencia">
+      <h2>Conferência dos números</h2>
+      <p>O que foi cruzado entre os grupos, a lista da Aline, os resumos da Júlia e o Conselho, e onde tem ressalva.</p>
+      <div class="dv-tablebox">
+        <table class="dv-table" data-source="conferencia" data-row-key="ordem">
+          <thead><tr>
+            <th data-field="checagem">Checagem</th>
+            <th data-field="resultado">Resultado</th>
+            <th data-field="detalhe" class="dv-hide-sm">Detalhe</th>
+          </tr></thead>
+          <tbody data-draw="conf"></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <!-- PRÉ-VENDAS -->
+  <section class="dv-page dv-scope" id="prevendas" role="tabpanel" hidden>
+    <div class="dv-main">
+      <section class="dv-card" id="pv-pessoas">
+        <div class="dv-cardhead"><h2>Quem faz pré-vendas</h2><span data-draw="pv-chip"></span></div>
+        <p>Agendamentos no mês contra a meta de cada uma. Clique pra filtrar.</p>
+        <div class="dv-list" data-draw="pv-list" data-source="pv_pessoa">—</div>
+      </section>
+
+      <section class="dv-center" id="pv-meta">
+        <div class="dv-gauge">
+          <div data-draw="pv-gauge" data-source="pv_pessoa"></div>
+          <div class="dv-gauge-label">
+            <span>Meta de agendamentos</span>
+            <div><span class="dv-num" data-draw="pv-pct" data-source="pv_pessoa">—</span><span class="dv-unit">%</span></div>
+            <span><span data-draw="pv-total" data-source="pv_pessoa">—</span> de <span data-draw="pv-meta">—</span></span>
+          </div>
+        </div>
+        <div class="dv-ccards" data-draw="pv-cards" data-source="pv_pessoa prevendas_diario leads vendas">—</div>
+        <p class="dv-note">Cada fatia é uma pessoa. Meta: SDR 5 a 6 por dia, Aline 4 por dia, 22 dias úteis.</p>
+      </section>
+
+      <section class="dv-sage" id="pv-ritmo">
+        <h2>Ritmo por dia</h2>
+        <p>Agendamentos de cada dia, um bloco por pessoa com o número dela. A linha tracejada é a meta do time (15 por dia).</p>
+        <div class="dv-legend" data-draw="pv-legend" data-source="pv_pessoa"></div>
+        <div class="dv-chart" data-draw="pv-daily" data-source="prevendas_diario"></div>
+        <h2>Comparecimento dos leads delas</h2>
+        <p>Quem entrou na reunião ÷ quem agendou.</p>
+        <div class="dv-ruler" data-draw="pv-ruler" data-source="pv_pessoa"></div>
+      </section>
+    </div>
+
+    <section class="dv-card" id="pv-etapas">
+      <h2>Do lead à reunião</h2>
+      <p>Leads que chegaram, conversaram e foram qualificados (Kommo), médios e agendados (relatório no grupo), quem entrou na reunião e quem fechou (lista oficial). Passe o mouse pra comparar com o CRM.</p>
+      <div class="dv-legend" data-draw="pv-legend" data-source="pv_pessoa"></div>
+      <div class="dv-chart tall" data-draw="pv-stages" data-source="pv_pessoa"></div>
+    </section>
+
+    <section class="dv-card" id="pv-leads">
+      <h2>Leads do mês</h2>
+      <p>Cada lead que a pré-venda passou, e até onde ele chegou: agendou, entrou na reunião, fechou.</p>
+      <div class="dv-tablebox">
+        <table class="dv-table" data-source="leads" data-row-key="dia,lead">
+          <thead><tr>
+            <th data-field="dia">Dia</th>
+            <th data-field="lead">Lead</th>
+            <th data-field="pessoa">Pré-venda</th>
+            <th data-field="qualificacao" class="dv-hide-sm">Qualificação</th>
+            <th data-field="closer" class="dv-hide-sm">Closer</th>
+            <th data-field="agendou">Agendou</th>
+            <th data-field="compareceu">Entrou</th>
+            <th data-field="fechou">Fechou</th>
+          </tr></thead>
+          <tbody data-draw="pv-leads"></tbody>
+        </table>
+      </div>
+      <p class="dv-note" data-draw="pv-leads-empty"></p>
+    </section>
+  </section>
+
+
+  <p class="dv-note">Vem dos relatórios do WhatsApp (SDRs, consolidado da Aline e grupos dos closers), atualizado todo dia. Etapa sem registro aparece como "falta registrar".</p>
+</div>
+
+<script>
+  window.dv = {
+    num: (v) => (v === '' || v == null) ? null : Number(v),
+    brl: (v) => new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL', maximumFractionDigits: 0}).format(v),
+    mil: (v) => new Intl.NumberFormat('pt-BR', {maximumFractionDigits: 1}).format(v / 1000),
+    pct0: (v) => new Intl.NumberFormat('pt-BR', {maximumFractionDigits: 0}).format(v * 100),
+    dec: (v) => new Intl.NumberFormat('pt-BR', {maximumFractionDigits: 1}).format(v),
+    int: (v) => new Intl.NumberFormat('pt-BR').format(v),
+    META_MES: 150000,
+    META_VENDAS: 28,
+    META_COMP: 0.8,
+    sel: {pv: null, cl: null},
+    shade: [0.95, 0.75, 0.58, 0.44, 0.32, 0.22, 0.15],
+  };
+
+  // Cada cálculo devolve uma linha por período: o mês inteiro ("2026-10") e cada dia com registro ("2026-10-27").
+  dash.calc('resumo', {
+    inputs: ['funil_diario', 'vendas', 'meses', 'metas'],
+    title: 'Resumo do período',
+    description: 'Por mês e por dia: faturamento (separado em vendas novas e recorrente = retroativos, parcelas de vendas de meses anteriores) e vendas da lista da Aline (no dia, só vendas com data; em mês sem lista, o total do resumo da Júlia). Comparecimento e conversão do mês vêm do resumo mensal da Júlia quando existe, senão dos dias com registro. Meta do mês vem da lista de metas (janeiro a agosto: meta original do planejamento de 28/01; setembro R$ 100 mil; outubro R$ 150 mil); meta do dia = meta do mês ÷ 22. Mês sem meta registrada fica sem meta.',
+    fn: (funil_diario, vendas, meses_resumo, metas) => {
+      const n = (v) => (v === '' || v == null) ? null : Number(v);
+      const valor = (r) => n(r.valor) ?? n(r.recebido) ?? 0;
+      const sum = (rows, k) => rows.reduce((s, r) => s + n(r[k]), 0);
+      const meses = [...meses_resumo.map((r) => r.mes), '2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11', ...funil_diario.map((r) => r.dia.slice(0, 7)), ...vendas.map((r) => r.mes)];
+      const dias = [...funil_diario.map((r) => r.dia.slice(0, 10)), ...vendas.map((r) => r.data).filter(Boolean)];
+      return [...new Set([...meses, ...dias])].sort().map((periodo) => {
+        const dia = periodo.length > 7;
+        const fd = funil_diario.filter((r) => r.dia.slice(0, dia ? 10 : 7) === periodo);
+        const vs = vendas.filter((r) => (dia ? r.data : r.mes) === periodo);
+        const mt = metas.find((r) => r.mes === periodo.slice(0, 7));
+        const metaMes = mt ? n(mt.meta_faturamento) : null;
+        const meta = metaMes == null ? null : dia ? metaMes / 22 : metaMes;
+        const metaVendas = mt ? (dia ? n(mt.meta_vendas) / 22 : n(mt.meta_vendas)) : null;
+        const fat = vs.reduce((s, r) => s + valor(r), 0);
+        const ar = fd.filter((r) => n(r.agendadas) != null && n(r.realizadas) != null);
+        const rf = fd.filter((r) => n(r.realizadas) != null && n(r.fechadas) != null);
+        const mr = dia ? null : meses_resumo.find((r) => r.mes === periodo);
+        const fatTotal = vs.length ? fat : mr ? (n(mr.faturamento_novas) ?? 0) + (n(mr.retroativos) ?? 0) : 0;
+        const novas = vs.length ? vs.filter((r) => r.tipo === 'Venda nova').length : mr ? n(mr.vendas) : 0;
+        const fatNovas = vs.length ? vs.filter((r) => r.tipo === 'Venda nova').reduce((s, r) => s + valor(r), 0) : mr ? (n(mr.faturamento_novas) ?? 0) : 0;
+        return {
+          periodo,
+          meta,
+          meta_vendas: metaVendas,
+          faturamento: fatTotal,
+          fat_novas: fatNovas,
+          fat_recorrente: fatTotal - fatNovas,
+          meta_pct: meta ? fatTotal / meta : null,
+          falta: meta ? Math.max(0, meta - fatTotal) : null,
+          vendas_novas: novas,
+          comparecimento: mr ? n(mr.realizadas) / n(mr.agendadas) : ar.length && sum(ar, 'agendadas') ? sum(ar, 'realizadas') / sum(ar, 'agendadas') : null,
+          conversao: mr ? n(mr.vendas) / n(mr.realizadas) : rf.length && sum(rf, 'realizadas') ? sum(rf, 'fechadas') / sum(rf, 'realizadas') : null,
+        };
+      });
+    },
+  });
+
+  dash.calc('etapas', {
+    inputs: ['funil_diario', 'meses'],
+    title: 'Funil por etapa',
+    description: 'Por mês e por dia: média por dia de cada etapa nos dias em que foi registrada (no dia, o próprio número), ao lado da meta diária. Em mês com resumo da Júlia, agendadas, feitas e vendas vêm do total do mês ÷ 22 dias úteis.',
+    fn: (funil_diario, meses_resumo) => {
+      const n = (v) => (v === '' || v == null) ? null : Number(v);
+      const doMes = {agendadas: 'agendadas', realizadas: 'realizadas', fechadas: 'vendas'};
+      const etapas = [
+        ['sdr_entradas', 'Entrada (SDR)', null],
+        ['sdr_qualificados', 'Qualificado (SDR)', 10],
+        ['agendadas', 'Agendada (Aline)', 13],
+        ['confirmadas', 'Confirmada (Aline)', null],
+        ['realizadas', 'Reunião feita (closer)', 8],
+        ['fechadas', 'Venda fechada (closer)', 1.3],
+      ];
+      const periodos = [...new Set([...meses_resumo.map((r) => r.mes), '2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11', ...funil_diario.flatMap((r) => [r.dia.slice(0, 7), r.dia.slice(0, 10)])])].sort();
+      return periodos.flatMap((periodo) => etapas.map(([k, etapa, meta], i) => {
+        const v = funil_diario.filter((r) => r.dia.slice(0, periodo.length) === periodo).map((r) => n(r[k])).filter((x) => x != null);
+        const mr = periodo.length === 7 ? meses_resumo.find((r) => r.mes === periodo) : null;
+        if (mr && doMes[k] && n(mr[doMes[k]]) != null) return {periodo, ordem: i + 1, etapa, media: n(mr[doMes[k]]) / 22, dias: 22, meta, fonte: 'resumo do mês'};
+        return {periodo, ordem: i + 1, etapa, media: v.length ? v.reduce((a, b) => a + b, 0) / v.length : null, dias: v.length, meta, fonte: 'dias registrados'};
+      }));
+    },
+  });
+
+  dash.calc('por_closer', {
+    inputs: ['vendas'],
+    title: 'Faturamento por closer',
+    description: 'Por mês e por dia (vendas com data): soma do valor, ou do recebido quando o valor ainda não foi confirmado, por closer.',
+    fn: (vendas) => {
+      const n = (v) => (v === '' || v == null) ? null : Number(v);
+      const m = new Map();
+      const add = (p, r) => { const k = `${p}|${r.closer}`; m.set(k, (m.get(k) ?? 0) + (n(r.valor) ?? n(r.recebido) ?? 0)); };
+      vendas.forEach((r) => { add(r.mes, r); if (r.data) add(r.data, r); });
+      return [...m].map(([k, valor]) => ({periodo: k.split('|')[0], closer: k.split('|')[1], valor})).sort((a, b) => b.valor - a.valor);
+    },
+  });
+
+  dash.calc('por_pagamento', {
+    inputs: ['vendas'],
+    title: 'Vendas por forma de pagamento',
+    description: 'Por mês e por dia (vendas com data): quantidade de vendas por forma de pagamento informada.',
+    fn: (vendas) => {
+      const m = new Map();
+      const add = (p, r) => { const k = `${p}|${r.pagamento}`; m.set(k, (m.get(k) ?? 0) + 1); };
+      vendas.forEach((r) => { add(r.mes, r); if (r.data) add(r.data, r); });
+      return [...m].map(([k, vendas]) => ({periodo: k.split('|')[0], pagamento: k.split('|')[1], vendas})).sort((a, b) => b.vendas - a.vendas);
+    },
+  });
+
+  dash.calc('pv_pessoa', {
+    inputs: ['prevendas_diario', 'vendas'],
+    title: 'Pré-vendas por pessoa',
+    description: 'Por mês e por dia, por pessoa de pré-vendas. Agendamentos da Lu e da Lara = o que relataram no grupo (oficial); sem relatório, o CRM. Aline = reuniões agendadas no CRM. Chegaram, conversaram, qualificados, no show e desqualificados vêm do Kommo sem movimentações em lote (rajadas de 8+ na mesma etapa em 10 min). Fecharam = vendas novas da lista oficial cujo lead tem a etiqueta da pessoa no Kommo. Meta de agendamentos: SDR 5,5 por dia, Aline 4 por dia; no mês, 22 dias. Desde 03/11 a Lu faz recuperação (liga, WhatsApp e Instagram pros leads que a Aline passa: no-show, reagendamento e follow-up): o card dela mostra recebidos, reagendados e fora, sem meta de SDR.',
+    fn: (prevendas_diario, vendas) => {
+      const n = (v) => (v === '' || v == null) ? null : Number(v);
+      const metaDia = {Aline: 4, Lara: 5.5, Lu: 5.5};
+      const campos = ['entradas', 'conversados', 'medios', 'qualificados', 'agendados', 'agendados_crm', 'compareceram', 'no_show', 'desqualificados', 'agendados_relatado', 'qualificados_relatado'];
+      const periodos = [...new Set(['2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11', ...prevendas_diario.flatMap((r) => [r.dia.slice(0, 7), r.dia.slice(0, 10)])])].sort();
+      return periodos.flatMap((periodo) => Object.keys(metaDia).map((pessoa) => {
+        const rows = prevendas_diario.filter((r) => r.pessoa === pessoa && r.dia.slice(0, periodo.length) === periodo);
+        const recup = pessoa === 'Lu' && (periodo.length > 7 ? periodo >= '2026-11-03' : periodo >= '2026-11');
+        const out = {periodo, pessoa, funcao: recup ? 'recuperação' : '', meta: recup ? null : periodo.length > 7 ? metaDia[pessoa] : Math.round(metaDia[pessoa] * 22), dias: rows.length};
+        campos.forEach((c) => {
+          const v = rows.map((r) => n(r[c])).filter((x) => x != null);
+          out[c] = v.length ? v.reduce((a, b) => a + b, 0) : null;
+        });
+        const dia = periodo.length > 7;
+        const vs = vendas.filter((r) => r.tipo === 'Venda nova' && r.pre_venda === pessoa && (dia ? r.data === periodo : r.mes === periodo));
+        out.fecharam = vs.length;
+        out.faturamento = vs.reduce((a, r) => a + (n(r.valor) ?? n(r.recebido) ?? 0), 0);
+        return out;
+      }));
+    },
+  });
+
+
+
+
+
+  // período escolhido: o mês inteiro ou um dia
+  // a página sempre abre no dia anterior (fuso de Brasília); depois o filtro segue os cliques
+  window.dvOntem = new Date(Date.now() - 864e5).toLocaleDateString('en-CA', {timeZone: 'America/Sao_Paulo'});
+  dash.setParams({mes: dvOntem.slice(0, 7), dia: dvOntem});
+  window.dvM = () => dash.params().mes || dvOntem.slice(0, 7);
+  window.dvD = () => { const d = dash.params().dia; return d && d.slice(0, 7) === dvM() ? d : null; };
+  window.dvP = () => dvD() || dvM();
+  // comparador: segundo mês (padrão: o mês anterior ao escolhido)
+  window.dvCmp = () => dash.params().aba === 'cmp';
+  window.dvAntes = (m) => { const [y, mm] = m.split('-').map(Number); return mm === 1 ? `${y - 1}-12` : `${y}-${String(mm - 1).padStart(2, '0')}`; };
+  window.dvM2 = () => { const m2 = dash.params().mes2; return m2 && m2 !== dvM() ? m2 : dvAntes(dvM()); };
+  window.dvNomeMes = (m) => { const [y, mm] = m.split('-').map(Number); return new Date(Date.UTC(y, mm - 1, 15)).toLocaleDateString('pt-BR', {month: 'long', timeZone: 'UTC'}); };
+  window.dvNomeP = () => { const d = dvD(); return d ? `${d.slice(8, 10)}/${d.slice(5, 7)}` : dvNomeMes(dvM()); };
+  window.dvCurto = (m) => { const [y, mm] = m.split('-').map(Number); return `${new Date(Date.UTC(y, mm - 1, 15)).toLocaleDateString('pt-BR', {month: 'short', timeZone: 'UTC'}).replace('.', '')}/${String(y).slice(2)}`; };
+  window.dvMeses = ['2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10', '2026-11'];
+  window.dvDoP = (rows) => rows.filter((r) => r.periodo === dvP());
+  window.dvDiaDoP = (rows) => rows.filter((r) => (r.dia || '').slice(0, dvP().length) === dvP());
+  window.dvVendasDoP = (rows) => rows.filter((r) => (dvD() ? r.data === dvD() : r.mes === dvM()));
+  window.dvResumoP = () => { const d = dash.data('resumo'); return d.status === 'ok' ? dvDoP(d.data)[0] || null : null; };
+  window.dvMeta = () => { const r = dvResumoP(); return r && r.meta ? r.meta : null; };
+  window.dvPctMeta = (v) => (dvMeta() ? `${dv.pct0(v / dvMeta())}% da meta` : 'sem meta no mês');
+  window.dvMid = (rows) => rows.filter((r) => (r.periodo ? r.periodo === dvP() : r.mes === dvM()));
+  window.dvVazio = (el, txt) => { const e = document.createElement('div'); e.className = 'dv-empty'; e.textContent = txt; el.replaceChildren(e); };
+
+  // abas
+  const dvShow = (id) => {
+    document.querySelectorAll('.dv-page').forEach((p) => { p.hidden = p.id !== id; });
+    document.querySelectorAll('.dv-tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === id)));
+    // o comparador muda a barra de meses (dois meses marcados), então redesenha
+    const cmp = id === 'comparar';
+    if (cmp !== (dash.params().aba === 'cmp')) dash.setParams({aba: cmp ? 'cmp' : ''});
+  };
+  document.querySelectorAll('.dv-tab').forEach((t) => t.addEventListener('click', () => { dvShow(t.dataset.tab); dash.setLink(t.dataset.tab); }));
+  const dvStart = location.hash.slice(1);
+  if (['comparar', 'geral', 'prevendas'].includes(dvStart)) dvShow(dvStart);
+  else if (dash.params().aba === 'cmp') dash.setParams({aba: ''});
+
+  // destaque ao passar o mouse e tooltip
+  const dvRoot = document.querySelector('.dv');
+  const dvClear = () => {
+    dvRoot.querySelectorAll('.dv-hovering').forEach((s) => s.classList.remove('dv-hovering'));
+    dvRoot.querySelectorAll('.dv-on').forEach((s) => s.classList.remove('dv-on'));
+  };
+  if (dvRoot) {
+    dvRoot.addEventListener('mouseover', (e) => {
+      const t = e.target.closest('[data-k]');
+      dvClear();
+      if (!t) return;
+      const scope = t.closest('.dv-scope');
+      if (!scope) return;
+      scope.classList.add('dv-hovering');
+      scope.querySelectorAll('[data-k]').forEach((x) => { if (x.dataset.k === t.dataset.k) x.classList.add('dv-on'); });
+    });
+    dvRoot.addEventListener('mouseleave', dvClear);
+  }
+
+  dash.draw('tip', {
+    mount: (el) => {
+      el.hidden = true;
+      let pending = null;
+      const move = (e) => {
+        const first = !pending;
+        pending = e;
+        if (first) requestAnimationFrame(() => { const ev = pending; pending = null; place(ev); });
+      };
+      const place = (e) => {
+        const t = e.target.closest('[data-tip]');
+        if (!t) { el.hidden = true; return; }
+        if (el.__txt !== t.dataset.tip) {
+          el.__txt = t.dataset.tip;
+          // pílula de vidro no estilo da referência "46bmp"
+          const tx = document.createElement('span');
+          tx.className = 'dv-tip-tx';
+          tx.append(...t.dataset.tip.split('|').map((l) => { const d = document.createElement('div'); d.textContent = l; return d; }));
+          el.replaceChildren(tx);
+        }
+        el.hidden = false;
+        const box = dvRoot.getBoundingClientRect();
+        const x = e.clientX - box.left + 14;
+        el.style.left = `${Math.min(x, box.width - el.offsetWidth - 4)}px`;
+        el.style.top = `${e.clientY - box.top - el.offsetHeight - 10}px`;
+      };
+      dvRoot.addEventListener('mousemove', move);
+      const leave = () => { el.hidden = true; };
+      dvRoot.addEventListener('mouseleave', leave);
+      return {move, leave};
+    },
+    update: () => {},
+    unmount: (el, made) => { dvRoot.removeEventListener('mousemove', made.move); dvRoot.removeEventListener('mouseleave', made.leave); },
+  });
+
+  // filtro por pessoa
+  if (dvRoot) {
+    dvRoot.addEventListener('click', (e) => {
+      const clear = e.target.closest('[data-clear]');
+      const row = e.target.closest('[data-sel]');
+      if (clear) dv.sel[clear.dataset.clear] = null;
+      else if (row) { const g = row.dataset.sel; dv.sel[g] = dv.sel[g] === row.dataset.k ? null : row.dataset.k; }
+      else return;
+      ['pv-list', 'pv-chip', 'pv-leads', 'pv-leads-empty', 'pv-stages'].forEach((name) => dash.draw(name));
+    });
+    dvRoot.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-sel]')) { e.preventDefault(); e.target.click(); } });
+  }
+</script>
+
+<script>
+  // peças reutilizadas
+  window.dvMk = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  window.dvTicks = (value, max, goal, bad) => {
+    const t = dvMk('div', 'dv-ticks');
+    t.append(dvMk('i', 'base'));
+    if (value != null) { const on = dvMk('i', bad ? 'on bad' : 'on'); on.style.width = `${Math.min(100, (value / max) * 100)}%`; t.append(on); }
+    if (goal != null) { const g = dvMk('span', 'goal'); g.style.left = `${Math.min(99.5, (goal / max) * 100)}%`; t.append(g); }
+    return t;
+  };
+
+  // círculo de meta: anel de partículas que flutuam e se afastam do mouse
+  // um tom bem diferente por fatia (violeta, azul-marinho, azul-pervinca, índigo, lilás, azul-ardósia); o último é a faixa que falta pra meta
+  window.dvRingTones = [[128, 52, 200], [20, 36, 100], [90, 125, 232], [118, 84, 206], [178, 156, 246], [84, 104, 146], [226, 220, 238]];
+  window.dvShadeOf = (rgb, f) => rgb.map((v) => Math.round(f >= 0 ? v + (255 - v) * f : v * (1 + f)));
+  window.dvSprite = (() => {
+    const cache = new Map();
+    return (rgb, soft) => {
+      const key = rgb.join(',') + (soft ? 's' : '');
+      if (cache.has(key)) return cache.get(key);
+      const c = document.createElement('canvas');
+      c.width = c.height = 32;
+      const g = c.getContext('2d');
+      const [r, gg, b] = rgb;
+      const grad = soft ? g.createRadialGradient(16, 16, 0, 16, 16, 16) : g.createRadialGradient(11, 10, 1, 16, 16, 16);
+      if (soft) {
+        grad.addColorStop(0, `rgba(${r},${gg},${b},.55)`);
+        grad.addColorStop(1, `rgba(${r},${gg},${b},0)`);
+      } else {
+        grad.addColorStop(0, `rgba(${Math.min(255, r + 95)},${Math.min(255, gg + 95)},${Math.min(255, b + 95)},1)`);
+        grad.addColorStop(0.45, `rgba(${r},${gg},${b},1)`);
+        grad.addColorStop(0.92, `rgba(${Math.max(0, r - 38)},${Math.max(0, gg - 38)},${Math.max(0, b - 38)},1)`);
+        grad.addColorStop(1, `rgba(${Math.max(0, r - 38)},${Math.max(0, gg - 38)},${Math.max(0, b - 38)},0)`);
+      }
+      g.fillStyle = grad;
+      g.beginPath();
+      g.arc(16, 16, 16, 0, Math.PI * 2);
+      g.fill();
+      c.__rgb = `rgb(${rgb.join(',')})`;
+      c.__soft = !!soft;
+      cache.set(key, c);
+      return c;
+    };
+  })();
+
+  window.dvMakeRing = (el) => {
+    const canvas = document.createElement('canvas');
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.display = 'block';
+    canvas.style.cursor = 'default';
+    canvas.setAttribute('role', 'img');
+    el.append(canvas);
+    const ctx = canvas.getContext('2d');
+    const calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const st = {segs: [], meta: 1, parts: [], mouse: null, hover: -1, size: 0, raf: 0, t0: performance.now(), visible: true, q: 1, ft: [], step: 1};
+    const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+    const resize = () => {
+      const w = Math.max(160, el.clientWidth || 320);
+      const dpr = Math.min(1.5, window.devicePixelRatio || 1);
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(w * dpr);
+      st.size = w;
+      st.dpr = dpr;
+      build();
+    };
+    const build = () => {
+      const S = st.size, c = S / 2, R = S * 0.36, T = S * 0.085, k = S / 400;
+      st.c = c; st.R = R; st.T = T;
+      const parts = [];
+      const total = st.segs.reduce((a, s) => a + s.value, 0);
+      const meta = Math.max(st.meta, total, 1);
+      const gap = 0.022;
+      let acc = 0;
+      const arcs = st.segs.map((s, i) => { const a0 = (acc / meta) * Math.PI * 2; acc += s.value; return {i, a0, a1: (acc / meta) * Math.PI * 2}; });
+      const rest = {i: -1, a0: (acc / meta) * Math.PI * 2, a1: Math.PI * 2};
+      const N = Math.round(9750 * Math.min(1.3, Math.max(0.6, k)));
+      [...arcs, rest].forEach((arc) => {
+        const span = arc.a1 - arc.a0 - (arc.i >= 0 ? gap : 0);
+        if (span <= 0.002) return;
+        const count = Math.round(N * (span / (Math.PI * 2)) * (arc.i < 0 ? 0.28 : 1));
+        const tone = arc.i < 0 ? dvRingTones[6] : dvRingTones[arc.i % 6];
+        for (let n = 0; n < count; n++) {
+          const ang = arc.a0 + (arc.i >= 0 ? gap / 2 : 0) + Math.random() * span - Math.PI / 2;
+          const rr = R + Math.max(-1.6, Math.min(1.6, gauss() * 0.55)) * T * 0.62;
+          const big = Math.random() < 0.02;
+          const vary = arc.i < 0 ? 0 : [-0.12, -0.05, 0, 0, 0.06, 0.14][Math.floor(Math.random() * 6)];
+          const t = dvShadeOf(tone, vary);
+          parts.push({seg: arc.i, x0: c + Math.cos(ang) * rr, y0: c + Math.sin(ang) * rr, dx: 0, dy: 0, vx: 0, vy: 0,
+            s: Math.max(0.55, (big ? 0.75 + Math.random() * 0.45 : 0.4 + Math.random() * 0.35) * Math.max(0.8, k)), sp: dvSprite(t, false),
+            ph: Math.random() * Math.PI * 2, am: 0.3 + Math.random() * 1.1, fq: 0.35 + Math.random() * 0.6, a: arc.i < 0 ? 0.35 : 0.95});
+        }
+      });
+      const strays = Math.round(480 * Math.max(0.6, k));
+      for (let n = 0; n < strays; n++) {
+        const ang = Math.random() * Math.PI * 2;
+        const rr = R + Math.max(-2.2, Math.min(2.2, gauss() * 0.7)) * T;
+        const far = Math.random() < 0.25;
+        const t = dvRingTones[Math.floor(Math.random() * Math.max(1, Math.min(6, st.segs.length)))];
+        parts.push({seg: -2, x0: c + Math.cos(ang) * rr, y0: c + Math.sin(ang) * rr, dx: 0, dy: 0, vx: 0, vy: 0,
+          s: Math.max(0.5, (far ? 0.8 + Math.random() * 0.8 : 0.35 + Math.random() * 0.35) * Math.max(0.8, k)), sp: dvSprite(t, far),
+          ph: Math.random() * Math.PI * 2, am: 0.8 + Math.random() * 2, fq: 0.15 + Math.random() * 0.35, a: far ? 0.45 : 0.7});
+      }
+      const orbit = Math.round(450 * Math.max(0.6, k));
+      for (let n = 0; n < orbit; n++) {
+        const t = dvRingTones[Math.floor(Math.random() * Math.max(1, Math.min(6, st.segs.length)))];
+        const far = Math.random() < 0.18;
+        const r = R + Math.max(-1.4, Math.min(1.4, gauss() * 0.5)) * T * 0.75;
+        const w = (0.06 + Math.random() * 0.22) * (Math.random() < 0.85 ? 1 : -1);
+        parts.push({seg: -2, orb: true, r, ang: Math.random() * Math.PI * 2, w, x0: c, y0: c, dx: 0, dy: 0, vx: 0, vy: 0,
+          s: Math.max(0.5, (far ? 0.8 + Math.random() * 0.7 : 0.35 + Math.random() * 0.4) * Math.max(0.8, k)), sp: dvSprite(t, far),
+          ph: Math.random() * Math.PI * 2, am: 0.2 + Math.random() * 0.6, fq: 0.2 + Math.random() * 0.4, a: far ? 0.45 : 0.85});
+      }
+      parts.forEach((p) => {
+        if (p.orb) { p.x0 = c + Math.cos(p.ang) * p.r; p.y0 = c + Math.sin(p.ang) * p.r; }
+        p.dot = p.s < 0.9 && !p.sp.__soft;
+        p.fill = p.sp.__rgb || 'rgb(130,110,160)';
+        if (!p.orb && p.seg >= 0 && Math.random() < 0.55) p.am = 0;
+        p.rest = true;
+      });
+      parts.sort((a, b) => (a.fill < b.fill ? -1 : a.fill > b.fill ? 1 : 0));
+      st.arcs = arcs;
+      st.parts = parts;
+      if (calm) frame(performance.now());
+    };
+    const segAt = (x, y) => {
+      const dx = x - st.c, dy = y - st.c, d = Math.hypot(dx, dy);
+      if (Math.abs(d - st.R) > st.T * 1.3) return -1;
+      let a = Math.atan2(dy, dx) + Math.PI / 2;
+      if (a < 0) a += Math.PI * 2;
+      const hit = (st.arcs || []).find((s) => a >= s.a0 && a < s.a1);
+      return hit ? hit.i : -1;
+    };
+    const frame = (now) => {
+      if (!canvas.isConnected) { cancelAnimationFrame(st.raf); return; }
+      if (!calm) st.raf = requestAnimationFrame(frame);
+      if (!canvas.offsetParent || !st.visible) { st.last = 0; return; }
+      if (st.last && !calm) { st.ft.push(now - st.last); if (st.ft.length >= 30) { const avg = st.ft.reduce((x, y) => x + y, 0) / st.ft.length; const dw = st.dw / 30; st.ft = []; st.dw = 0; st.lastDraw = dw; if ((avg > 18 || dw > 5) && st.step < 4) st.step++; else if (avg < 12 && dw < 2 && st.step > 1) st.step--; } }
+      const drawStart = performance.now();
+      const t = (now - st.t0) / 1000;
+      const dt = Math.min(0.05, st.last ? (now - st.last) / 1000 : 0);
+      st.last = now;
+      const S = st.size, dpr = st.dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, S, S);
+      const m = st.mouse, rad = S * 0.16, rad2 = rad * rad, hov = st.hover;
+      let curFill = '', curAlpha = -1;
+      const step = st.step;
+      for (let i = 0, L = st.parts.length; i < L; i++) {
+        const p = st.parts[i];
+        if (step > 1 && p.dot && !p.orb && i % step) continue;
+        if (p.orb && !calm) { p.ang += p.w * dt; p.x0 = st.c + Math.cos(p.ang) * p.r; p.y0 = st.c + Math.sin(p.ang) * p.r; }
+        if (m && !calm) {
+          const ex = p.x0 + p.dx - m.x, ey = p.y0 + p.dy - m.y, d2 = ex * ex + ey * ey;
+          if (d2 < rad2 && d2 > 0.0001) { const d = Math.sqrt(d2), f = (1 - d / rad) * 1.6; p.vx += (ex / d) * f; p.vy += (ey / d) * f; p.rest = false; }
+        }
+        if (!p.rest) {
+          p.vx += -p.dx * 0.045; p.vy += -p.dy * 0.045;
+          p.vx *= 0.86; p.vy *= 0.86;
+          p.dx += p.vx; p.dy += p.vy;
+          if (Math.abs(p.dx) + Math.abs(p.dy) + Math.abs(p.vx) + Math.abs(p.vy) < 0.02) { p.dx = p.dy = p.vx = p.vy = 0; p.rest = true; }
+        }
+        let x = p.x0 + p.dx, y = p.y0 + p.dy;
+        if (p.am && !calm) { x += Math.sin(t * p.fq + p.ph) * p.am; y += Math.cos(t * p.fq * 0.8 + p.ph) * p.am; }
+        const lit = hov >= 0 && p.seg >= 0 ? (p.seg === hov ? 1 : 0.32) : 1;
+        const alpha = p.a * lit;
+        if (alpha !== curAlpha) { ctx.globalAlpha = alpha; curAlpha = alpha; }
+        const sz = p.s * (hov >= 0 && p.seg === hov ? 1.25 : 1);
+        if (p.dot) {
+          if (p.fill !== curFill) { ctx.fillStyle = p.fill; curFill = p.fill; }
+          const d = Math.max(sz * 2, 1 / dpr);
+          ctx.fillRect(x - d / 2, y - d / 2, d, d);
+        } else {
+          ctx.drawImage(p.sp, x - sz, y - sz, sz * 2, sz * 2);
+        }
+      }
+      ctx.globalAlpha = 1;
+      st.dw = (st.dw || 0) + (performance.now() - drawStart);
+    };
+    const scopeOf = () => el.closest('.dv-scope');
+    const setHover = (i) => {
+      if (st.hover === i) return;
+      st.hover = i;
+      const seg = st.segs[i];
+      canvas.dataset.tip = seg ? seg.tip : '';
+      if (!seg) delete canvas.dataset.tip;
+      const scope = scopeOf();
+      if (scope) {
+        scope.querySelectorAll('.dv-on').forEach((x) => x.classList.remove('dv-on'));
+        scope.classList.toggle('dv-hovering', !!seg);
+        if (seg) scope.querySelectorAll('[data-k]').forEach((x) => { if (x.dataset.k === seg.k) x.classList.add('dv-on'); });
+      }
+      if (calm) frame(performance.now());
+    };
+    canvas.addEventListener('mousemove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      const x = (e.clientX - r.left) * (st.size / r.width), y = (e.clientY - r.top) * (st.size / r.height);
+      st.mouse = {x, y};
+      setHover(segAt(x, y));
+    });
+    canvas.addEventListener('mouseleave', () => { st.mouse = null; setHover(-1); });
+    const io = new IntersectionObserver((en) => { st.visible = en[0].isIntersecting; }, {rootMargin: '100px'});
+    io.observe(canvas);
+    const ro = new ResizeObserver(() => { if (Math.abs((el.clientWidth || 0) - st.size) > 2) resize(); });
+    ro.observe(el);
+    const ring = {canvas, stats: () => ({step: st.step, n: st.parts.length, draw_ms: +(st.lastDraw || 0).toFixed(2)}), set: (segs, meta) => { st.segs = segs; st.meta = meta; if (!st.size) resize(); else build(); }};
+    resize();
+    if (!calm) st.raf = requestAnimationFrame(frame);
+    return ring;
+  };
+
+  window.dvGauge = (el, segs, meta) => {
+    if (!meta) meta = Math.max(1, segs.reduce((a, s) => a + s.value, 0));
+    let ring = el.__ring;
+    if (!ring || !ring.canvas.isConnected || ring.canvas.parentNode !== el) {
+      el.replaceChildren();
+      ring = el.__ring = dvMakeRing(el);
+    }
+    ring.set(segs.filter((s) => s.value > 0), meta);
+  };
+
+  // barras agrupadas: etapas no eixo, uma barra por pessoa
+  window.dvGrouped = (el, stages, people, get) => {
+    el.replaceChildren();
+    const W = Math.max(280, el.clientWidth || 600), H = 250, m = {t: 12, r: 6, b: 30, l: 34};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const x0 = d3.scaleBand(stages.map((s) => s.key), [m.l, W - m.r]).padding(0.22);
+    const x1 = d3.scaleBand(people, [0, x0.bandwidth()]).padding(0.14);
+    const vals = stages.flatMap((s) => people.map((p) => get(p, s.key) ?? 0));
+    const y = d3.scaleLinear([0, Math.max(1, d3.max(vals)) * 1.1], [H - m.b, m.t]).nice();
+    const ticks = y.ticks(4).filter((t) => Number.isInteger(t));
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).style('stroke', 'var(--cds-chart-grid)');
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((t) => t);
+    stages.forEach((s) => {
+      people.forEach((p, i) => {
+        const v = get(p, s.key);
+        const rel = s.key === 'agendados' ? get(p, 'agendados_crm') : s.key === 'qualificados' ? get(p, 'qualificados_relatado') : null;
+        const g = svg.append('g').attr('data-k', p).attr('data-tip', `${s.label}|${p}: ${v == null ? 'falta registrar' : dv.int(v)}${rel != null ? `|${s.key === 'agendados' ? 'no CRM' : 'relatado no grupo'}: ${dv.int(rel)}` : ''}`);
+        g.append('rect').attr('x', x0(s.key) + x1(p)).attr('width', x1.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).style('fill', 'transparent');
+        if (v != null && v > 0) {
+          g.append('rect').attr('x', x0(s.key) + x1(p)).attr('width', x1.bandwidth()).attr('y', y(v)).attr('height', y(0) - y(v))
+            .attr('rx', Math.min(4, x1.bandwidth() / 2)).style('fill', 'var(--dv-sage-deep)').attr('fill-opacity', dv.shade[i % dv.shade.length]);
+        } else if (v == null) {
+          g.append('line').attr('x1', x0(s.key) + x1(p) + 2).attr('x2', x0(s.key) + x1(p) + x1.bandwidth() - 2).attr('y1', y(0) - 2).attr('y2', y(0) - 2)
+            .attr('stroke-dasharray', '2 3').style('stroke', 'var(--color-fg-muted)');
+        }
+      });
+    });
+    const lab = svg.append('g').selectAll('text').data(stages).join('text').attr('x', (s) => x0(s.key) + x0.bandwidth() / 2).attr('y', H - 10).attr('text-anchor', 'middle')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((s) => s.short);
+    lab.each(function () { if (this.getComputedTextLength() > x0.step() - 4) d3.select(this).text((s) => s.tiny); });
+  };
+
+  window.dvLegend = (el, people) => {
+    el.replaceChildren(...people.map((p, i) => {
+      const s = dvMk('span');
+      s.dataset.k = p;
+      const sw = dvMk('i', 'dv-sw');
+      sw.style.background = 'var(--dv-ink)';
+      sw.style.opacity = dvInkShade(i, people.length);
+      s.append(sw, document.createTextNode(p));
+      return s;
+    }));
+  };
+
+  window.dvRuler = (el, v, meta) => {
+    el.replaceChildren();
+    const W = Math.max(200, el.clientWidth || 300), H = 36;
+    const x = d3.scaleLinear([0, 1], [2, W - 2]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    svg.append('g').selectAll('line').data(d3.range(0, 1.0001, 0.02)).join('line')
+      .attr('x1', (t) => x(t)).attr('x2', (t) => x(t)).attr('y1', (t) => (Math.round(t * 100) % 10 === 0 ? 6 : 10)).attr('y2', 20)
+      .style('stroke', 'var(--color-fg)').style('stroke-opacity', (t) => (v != null && t <= v ? .75 : .2)).style('stroke-width', 1);
+    svg.append('line').attr('x1', x(meta)).attr('x2', x(meta)).attr('y1', 0).attr('y2', 24).style('stroke', 'var(--color-fg)').style('stroke-width', 2);
+    const cap = (t, xx, anchor) => svg.append('text').attr('x', xx).attr('y', H - 2).attr('text-anchor', anchor).style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(t);
+    cap('0%', x(0), 'start');
+    cap('100%', x(1), 'end');
+    const label = v == null || Number.isNaN(v) ? 'falta registrar' : `${dv.pct0(v)}% agora`;
+    svg.append('text').attr('x', Math.max(40, Math.min(x(v ?? 0.5), W - 60))).attr('y', H - 2).attr('text-anchor', 'middle').style('fill', 'var(--color-fg)').style('font-size', 'var(--cds-font-size-caption)').text(label);
+  };
+
+  window.dvPeople = (rows, key) => rows.map((r) => r[key]);
+</script>
+
+<script>
+  // VISÃO GERAL
+
+  // MÊS E DIA
+  const dvCap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+  dash.draw('mes-nome', (el) => { if (dvCmp()) { const [a, b] = [dvM(), dvM2()].sort(); el.textContent = `${dvCurto(a)} × ${dvCurto(b)}${dvD() ? ` · dia ${dvD().slice(8, 10)}` : ''}`; return; } el.textContent = dvD() ? `dia ${dvNomeP()}` : `${dvCap(dvNomeMes(dvM()))} ${dvM().slice(2, 4)}`; });
+  dash.draw('mes-nome2', (el) => { el.textContent = dvD() ? `O dia ${dvNomeP()}` : dvCap(dvNomeMes(dvM())); });
+  dash.draw('meta-label', (el) => { el.textContent = dvD() ? 'Meta do dia' : 'Meta do mês'; });
+
+  dash.draw('meses', (el) => {
+    if (!dvMeses.includes(dvM())) dvMeses.push(dvM());
+    if (dvCmp() && !dvMeses.includes(dvM2())) dvMeses.push(dvM2());
+    dvMeses.sort();
+    const botoes = dvMeses.map((m) => {
+      const b = dvMk('button', 'dv-month', dvCurto(m));
+      if (dvCmp()) {
+        // dois meses marcados; clicar num terceiro troca o mais antigo dos dois cliques
+        const marcado = m === dvM() || m === dvM2();
+        b.setAttribute('aria-pressed', String(marcado));
+        if (marcado) b.classList.add(m < (m === dvM() ? dvM2() : dvM()) ? 'cmp-a' : 'cmp-b');
+        b.onclick = () => { if (!marcado) dash.setParams({mes: m, mes2: dvM(), dia: ''}); };
+      } else {
+        b.setAttribute('aria-pressed', String(m === dvM()));
+        b.onclick = () => dash.setParams({mes: m, dia: ''});
+      }
+      return b;
+    });
+    const mais = dvMk('button', 'dv-month add', '+');
+    mais.setAttribute('aria-label', 'Abrir o próximo mês');
+    mais.title = 'Abrir o próximo mês';
+    mais.onclick = () => {
+      const [y, mm] = dvMeses[dvMeses.length - 1].split('-').map(Number);
+      const prox = mm === 12 ? `${y + 1}-01` : `${y}-${String(mm + 1).padStart(2, '0')}`;
+      dvMeses.push(prox);
+      dash.setParams({mes: prox, dia: ''});
+    };
+    el.replaceChildren(...botoes, mais);
+  });
+
+
+  // COMPARADOR: dois meses (ou o mesmo dia nos dois meses), lado a lado
+  dash.draw('cmp', (el) => {
+    if (!dvCmp()) { el.replaceChildren(); return; }
+    const dd = dvD() ? dvD().slice(8, 10) : null;
+    const [m1, m2] = [dvM(), dvM2()].sort();
+    const pA = dd ? `${m1}-${dd}` : m1, pB = dd ? `${m2}-${dd}` : m2;
+    const nome = (m) => (dd ? `${dd}/${m.slice(5, 7)}` : `${dvCap(dvNomeMes(m))} ${m.slice(2, 4)}`);
+    const rows = (calc) => { const d = dash.data(calc); return d.status === 'ok' ? d.data : []; };
+    const um = (calc, p, f = () => true) => rows(calc).find((r) => r.periodo === p && f(r)) || {};
+    const num = (v) => (v == null || Number.isNaN(Number(v)) ? null : Number(v));
+    const brl = (v) => dv.brl(v), int = (v) => dv.int(v), pct = (v) => `${dv.pct0(v)}%`, x = (v) => `${dv.dec(v)}x`, brlK = (v) => (v >= 10000 ? `R$ ${dv.mil(v)} mil` : dv.brl(v));
+    const rA = um('resumo', pA), rB = um('resumo', pB), kA = {}, kB = {};
+
+    // uma linha: rótulo, valor antes, valor depois, variação e duas barras
+    const linha = (rot, a, b, fmt, menorMelhor = false) => {
+      a = num(a); b = num(b);
+      const r = dvMk('div', 'dv-cmp-row');
+      const lab = dvMk('span', 'dv-cmp-lab', rot);
+      const va = dvMk('span', 'dv-cmp-v a', a == null ? '—' : fmt(a));
+      const vb = dvMk('span', 'dv-cmp-v b', b == null ? '—' : fmt(b));
+      let dl = '—', cls = 'eq';
+      if (a != null && b != null && a !== 0) {
+        const d = (b - a) / Math.abs(a);
+        dl = `${d > 0 ? '+' : ''}${dv.pct0(d)}%`;
+        cls = Math.abs(d) < 0.005 ? 'eq' : (d > 0) !== menorMelhor ? 'up' : 'down';
+      } else if (a === 0 && b) { dl = 'novo'; cls = menorMelhor ? 'down' : 'up'; }
+      const delta = dvMk('span', `dv-cmp-d ${cls}`, dl);
+      const max = Math.max(Math.abs(a || 0), Math.abs(b || 0)) || 1;
+      const bars = dvMk('span', 'dv-cmp-bars');
+      [['a', a], ['b', b]].forEach(([k, v]) => { const i = dvMk('i', k); i.style.width = `${(Math.abs(v || 0) / max) * 100}%`; bars.append(i); });
+      r.append(lab, va, vb, delta, bars);
+      r.dataset.tip = `${rot}|${nome(m1)}: ${va.textContent} · ${nome(m2)}: ${vb.textContent}`;
+      return r;
+    };
+    const bloco = (titulo, nota, linhas) => {
+      const b = dvMk('section', 'dv-cmp-block');
+      const h = dvMk('div', 'dv-cmp-bh');
+      h.append(dvMk('h3', '', titulo), dvMk('span', 'dv-cmp-key a', nome(m1)), dvMk('span', 'dv-cmp-key b', nome(m2)));
+      b.append(h);
+      if (nota) b.append(dvMk('p', 'dv-cmp-note', nota));
+      const vivas = linhas.filter(Boolean);
+      if (vivas.length) b.append(...vivas); else b.append(dvMk('p', 'dv-cmp-note', 'Sem registro nos dois períodos.'));
+      return b;
+    };
+
+    // lado esquerdo: placar dos dois períodos e o que mais mudou
+    const placar = (m, r, k, cls) => {
+      const c = dvMk('div', `dv-cmp-score ${cls}`);
+      c.append(dvMk('span', 'dv-cmp-sn', nome(m)));
+      const v = dvMk('div', 'dv-cmp-big', r.faturamento == null ? '—' : brlK(r.faturamento));
+      c.append(v, dvMk('small', '', `${r.vendas_novas ?? 0} ${r.vendas_novas === 1 ? 'venda nova' : 'vendas novas'}${r.meta ? `\n${dv.pct0(r.meta_pct)}% da meta de ${brlK(r.meta)}` : '\nsem meta registrada'}${k.roas ? `\nROAS ${dv.dec(k.roas)}x` : ''}`));
+      return c;
+    };
+    const esq = dvMk('aside', 'dv-cmp-side');
+    esq.append(dvMk('h3', '', dd ? `Dia ${dd} nos dois meses` : 'Mês contra mês'), placar(m1, rA, kA, 'a'), placar(m2, rB, kB, 'b'));
+    const mud = [['Faturamento', rA.faturamento, rB.faturamento], ['Vendas novas', rA.vendas_novas, rB.vendas_novas], ['Comparecimento', rA.comparecimento, rB.comparecimento], ['Conversão', rA.conversao, rB.conversao]]
+      .filter(([, a, b]) => num(a) && num(b) != null).map(([t, a, b, menor]) => ({t, d: (b - a) / Math.abs(a), menor})).sort((p, q) => Math.abs(q.d) - Math.abs(p.d)).slice(0, 4);
+    if (mud.length) {
+      const l = dvMk('div', 'dv-cmp-moves');
+      l.append(dvMk('h3', '', 'O que mais mudou'));
+      mud.forEach((z) => { const it = dvMk('div', `dv-cmp-move ${(z.d > 0) !== !!z.menor ? 'up' : 'down'}`); it.append(dvMk('span', '', z.t), dvMk('b', '', `${z.d > 0 ? '+' : ''}${dv.pct0(z.d)}%`)); l.append(it); });
+      esq.append(l);
+    }
+
+    // lado direito: tudo que dá pra comparar
+    const dir = dvMk('div', 'dv-cmp-main');
+    const tk = (r) => (r.vendas_novas ? r.faturamento / r.vendas_novas : null);
+    dir.append(bloco('Vendas e meta', null, [
+      linha('Faturamento', rA.faturamento, rB.faturamento, brl),
+      linha('Vendas novas', rA.vendas_novas, rB.vendas_novas, int),
+      linha('Ticket médio', tk(rA), tk(rB), brl),
+      linha('Meta', rA.meta, rB.meta, brl),
+      linha('% da meta', rA.meta_pct, rB.meta_pct, pct),
+      linha('Comparecimento', rA.comparecimento, rB.comparecimento, pct),
+      linha('Conversão (feitas → vendas)', rA.conversao, rB.conversao, pct),
+    ]));
+    const pessoas = [...new Set(rows('pv_pessoa').filter((r) => (r.periodo === pA || r.periodo === pB) && (r.agendados != null || r.fecharam)).map((r) => r.pessoa))];
+    const pv = (q, p) => um('pv_pessoa', p, (r) => r.pessoa === q);
+    dir.append(bloco('Pré-vendas', null, pessoas.flatMap((q) => [
+      linha(`${q} · agendados`, pv(q, pA).agendados, pv(q, pB).agendados, int),
+      (pv(q, pA).qualificados != null || pv(q, pB).qualificados != null) ? linha(`${q} · qualificados`, pv(q, pA).qualificados, pv(q, pB).qualificados, int) : null,
+      linha(`${q} · vendas dos leads`, pv(q, pA).fecharam, pv(q, pB).fecharam, int),
+    ])));
+    el.replaceChildren(esq, dir);
+  });
+  dash.draw('dias', (el) => {
+    const [y, mm] = dvM().split('-').map(Number);
+    const total = new Date(Date.UTC(y, mm, 0)).getUTCDate();
+    const fd = dash.data('funil_diario');
+    const pv = dash.data('prevendas_diario');
+    const com = new Set([...(fd.status === 'ok' ? fd.data : []), ...(pv.status === 'ok' ? pv.data : [])].map((r) => (r.dia || '').slice(0, 10)));
+    const botao = (rotulo, valor, cls) => {
+      const b = dvMk('button', cls, rotulo);
+      b.setAttribute('aria-pressed', String((valor || '') === (dvD() || '')));
+      b.onclick = () => dash.setParams({dia: valor || ''});
+      return b;
+    };
+    const dias = d3.range(1, total + 1).map((d) => {
+      const iso = `${dvM()}-${String(d).padStart(2, '0')}`;
+      const b = botao(String(d), iso, `dv-day${com.has(iso) ? ' has' : ''}`);
+      b.title = com.has(iso) ? `${String(d).padStart(2, '0')}/${dvM().slice(5, 7)} · tem relatório` : `${String(d).padStart(2, '0')}/${dvM().slice(5, 7)} · sem relatório`;
+      return b;
+    });
+    el.replaceChildren(botao('Mês', '', 'dv-day all'), ...dias);
+  });
+  const dvResumo = (name, field, fmt) => dash.draw(name, (el) => {
+    const d = dash.data('resumo');
+    const r = d.status === 'ok' ? dvDoP(d.data)[0] : null;
+    const v = r ? r[field] : null;
+    el.dataset.where = `periodo=${dvP()}`;
+    el.textContent = (v == null || Number.isNaN(v)) ? '—' : fmt(v);
+  });
+  dvResumo('fat', 'faturamento', dv.brl);
+  dvResumo('fatk', 'faturamento', dv.mil);
+  dvResumo('fatnov', 'fat_novas', dv.brl);
+  dvResumo('fatrec', 'fat_recorrente', dv.brl);
+  dvResumo('faltak', 'falta', dv.mil);
+  dvResumo('metapct', 'meta_pct', dv.pct0);
+  dvResumo('vendas', 'vendas_novas', String);
+  dvResumo('conv', 'conversao', dv.pct0);
+  dash.draw('meta', (el) => { el.textContent = dvMeta() ? dv.brl(dvMeta()) : 'meta não definida'; });
+  dash.draw('metavendas', (el) => { const r = dvResumoP(); el.textContent = r && r.meta_vendas ? dv.dec(r.meta_vendas) : '—'; });
+  dash.draw('meta13', (el) => { el.textContent = '13'; });
+  dash.draw('meta8', (el) => { el.textContent = '8'; });
+
+  const dvEtapa = (name, etapa) => dash.draw(name, (el) => {
+    const d = dash.data('etapas');
+    const r = d.status === 'ok' ? dvDoP(d.data).find((x) => x.etapa === etapa) : null;
+    el.dataset.where = `periodo=${dvP()}&etapa=${etapa}`;
+    el.textContent = r && r.media != null ? dv.dec(r.media) : '—';
+  });
+  dvEtapa('mag', 'Agendada (Aline)');
+  dvEtapa('mre', 'Reunião feita (closer)');
+
+  dash.draw('funil', (el) => {
+    const d = dash.data('etapas');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const rows = dvDoP(d.data);
+    const max = (d3.max(rows, (r) => Math.max(r.media ?? 0, r.meta ?? 0)) || 1) * 1.1;
+    el.replaceChildren(...rows.map((r) => {
+      const row = dvMk('div', 'dv-step');
+      row.dataset.k = r.etapa;
+      row.dataset.tip = `${r.etapa}|${r.media == null ? 'falta registrar' : (r.fonte === 'resumo do mês' ? `${dv.dec(r.media)} por dia (total do mês ÷ 22)` : `${dv.dec(r.media)} por dia em ${r.dias} dias`)}${r.meta != null ? `|meta ${dv.dec(r.meta)} por dia` : ''}`;
+      const val = dvMk('div', 'dv-step-val');
+      if (r.media == null) val.append(dvMk('small', '', 'sem registro'));
+      else val.append(document.createTextNode(dv.dec(r.media)), dvMk('small', '', ' /dia'));
+      const abaixo = r.meta != null && r.media != null && r.media < r.meta * 0.8;
+      const foot = dvMk('div', 'dv-foot');
+      foot.append(
+        dvMk('span', '', r.meta != null ? `meta ${dv.dec(r.meta)}/dia` : 'sem meta definida'),
+        dvMk('span', r.media == null ? 'dv-pill' : abaixo ? 'dv-pill bad' : 'dv-pill ok', r.media == null ? 'falta registrar' : abaixo ? 'abaixo da meta' : r.meta != null ? 'perto da meta' : `${r.dias} dias`),
+      );
+      row.append(dvMk('span', 'dv-step-name', r.etapa), val, dvTicks(r.media, max, r.meta, abaixo), foot);
+      return row;
+    }));
+  });
+
+  dash.draw('gauge-geral', (el) => {
+    const d = dash.data('por_closer');
+    if (d.status !== 'ok') { el.__ring = null; el.replaceChildren(); return; }
+    dvGauge(el, dvDoP(d.data).map((r) => ({k: r.closer, value: r.valor, tip: `${r.closer}|${dv.brl(r.valor)} · ${dvPctMeta(r.valor)}`})), dvMeta());
+  });
+
+  window.dvOpenCloser = null;
+  window.dvExpIcon = (open) => {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 16 16');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('stroke-width', '1.4');
+    svg.setAttribute('stroke-linecap', 'round');
+    const p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', open ? 'M2.5 13.5L7 9M7 9H3.5M7 9v3.5M13.5 2.5L9 7M9 7h3.5M9 7V3.5' : 'M9.5 2.5h4v4M13.5 2.5L9 7M6.5 13.5h-4v-4M2.5 13.5L7 9');
+    svg.append(p);
+    return svg;
+  };
+
+  // janelinhas da pré-venda: mesmo desenho dos cartões dos closers
+  let dvOpenPv = null;
+  window.dvSparkline = (spark, serie, unid, metaDia) => {
+    if (serie.length < 2) return;
+    const W = 220, H = 44, ns = 'http://www.w3.org/2000/svg';
+    const media = d3.mean(serie, (p) => p.v);
+    const max = Math.max(1, metaDia || 0, ...serie.map((p) => p.v));
+    const px = (i) => 2 + (i / (serie.length - 1)) * (W - 4);
+    const py = (v) => H - 4 - (v / max) * (H - 10);
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    // linhas de referência: zero (contínua), meta do dia (tracejada) e média do período (pontilhada)
+    [[0, 'ref zero'], [metaDia, 'ref meta'], [media, 'ref media']].forEach(([v, cls]) => {
+      if (v == null || Number.isNaN(v)) return;
+      const l = document.createElementNS(ns, 'line');
+      l.setAttribute('x1', 0); l.setAttribute('x2', W);
+      l.setAttribute('y1', py(v)); l.setAttribute('y2', py(v));
+      l.setAttribute('class', cls);
+      svg.append(l);
+    });
+    // etiquetas à direita da linha (só no cartão aberto); se meta e média ficam coladas, mostra só a meta
+    const etq = [[metaDia, `meta ${String(metaDia).replace('.', ',')}`], [media, `média ${media.toFixed(1).replace('.', ',')}`]].filter(([v]) => v != null);
+    if (etq.length === 2 && Math.abs(py(etq[0][0]) - py(etq[1][0])) < 11) etq.pop();
+    const refs = etq.map(([v, t]) => { const e = dvMk('span', 'dv-cc-ref', t); e.style.top = `${(py(v) / H) * 100}%`; return e; });
+    spark.dataset.ref = `${metaDia ? `meta ${String(metaDia).replace('.', ',')}/dia · ` : ''}média ${media.toFixed(1).replace('.', ',')}/dia`;
+    const corte = Math.max(0, serie.length - 7);
+    [[0, corte, 'a'], [corte, serie.length - 1, 'b']].forEach(([from, to, cls]) => {
+      const p = document.createElementNS(ns, 'polyline');
+      p.setAttribute('points', serie.slice(from, to + 1).map((q, k) => `${px(from + k)},${py(q.v)}`).join(' '));
+      p.setAttribute('class', cls);
+      svg.append(p);
+    });
+    const dot = dvMk('span', 'dv-cc-dot');
+    const lab = dvMk('span', 'dv-cc-lab');
+    const mostra = (i, comLabel) => {
+      const x = (px(i) / W) * 100;
+      dot.style.left = lab.style.left = `${x}%`;
+      dot.style.top = `${(py(serie[i].v) / H) * 100}%`;
+      lab.style.transform = `translateX(${x < 15 ? -10 : x > 85 ? -90 : -50}%)`;
+      dot.hidden = false;
+      lab.textContent = `${serie[i].d.slice(8, 10)}/${serie[i].d.slice(5, 7)} · ${serie[i].v} ${typeof unid === 'function' ? unid(serie[i].v) : unid} · ${spark.dataset.ref}`;
+      lab.hidden = !comLabel;
+    };
+    const sel = dvD() ? serie.findIndex((q) => q.d === dvD()) : serie.length - 1;
+    const repouso = () => (sel >= 0 ? mostra(sel, false) : ((dot.hidden = true), (lab.hidden = true)));
+    const perto = (ev) => { const b = spark.getBoundingClientRect(); return Math.round(Math.min(1, Math.max(0, (ev.clientX - b.left) / b.width)) * (serie.length - 1)); };
+    spark.addEventListener('pointermove', (ev) => mostra(perto(ev), true));
+    spark.addEventListener('pointerdown', (ev) => { ev.stopPropagation(); mostra(perto(ev), true); });
+    spark.addEventListener('click', (ev) => ev.stopPropagation());
+    spark.addEventListener('pointerleave', repouso);
+    spark.append(svg, ...refs, dot, lab);
+    repouso();
+  };
+  dash.draw('pv-cards', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const rows = dvDoP(d.data);
+    const pd = dash.data('prevendas_diario');
+    const ld = dash.data('leads');
+    const vd = dash.data('vendas');
+    const leadsP = ld.status === 'ok' ? dvDiaDoP(ld.data) : [];
+    const vendasP = vd.status === 'ok' ? dvVendasDoP(vd.data).filter((x) => x.tipo === 'Venda nova') : [];
+    const fmtD = (x) => (x ? `${x.slice(8, 10)}/${x.slice(5, 7)}` : '—');
+    const sim = (v) => /^(s|sim|1|true|x)$/i.test(String(v || '').trim());
+    el.replaceChildren(...rows.map((r, idx) => {
+      const open = dvOpenPv === r.pessoa;
+      const card = dvMk('article', `dv-ccard${open ? ' open' : ''}`);
+      card.dataset.k = r.pessoa;
+      const base = dvRingTones[idx % 6];
+      card.style.setProperty('--tint', dvShadeOf(base, -0.08).join(', '));
+      card.style.setProperty('--tint-d', dvShadeOf(base, -0.45).join(', '));
+      const head = dvMk('div', 'dv-cc-head');
+      const btn = dvMk('button', 'dv-cc-exp');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? `Fechar detalhes de ${r.pessoa}` : `Ver leads e fechamentos de ${r.pessoa}`);
+      btn.append(dvExpIcon(open));
+      btn.onclick = (e) => { e.stopPropagation(); dvOpenPv = open ? null : r.pessoa; dash.draw('pv-cards'); };
+      head.append(dvMk('span', 'dv-cc-name', r.funcao ? `${r.pessoa} · ${r.funcao}` : r.pessoa), btn);
+      const status = dvMk('div', 'dv-cc-status');
+      const pill = dvMk('span', 'dv-cc-pill');
+      pill.append(dvMk('i'), document.createTextNode(`${r.fecharam} ${r.fecharam === 1 ? 'fechou' : 'fecharam'}`));
+      status.append(dvMk('span', '', r.funcao ? 'Reagendados (recuperados)' : 'Agendamentos'), pill);
+      const ag = r.agendados ?? 0;
+      const val = dvMk('div', 'dv-cc-val', dv.int(ag));
+      if (r.meta) val.append(dvMk('small', '', `/ ${dv.int(r.meta)}`));
+      const sub = dvMk('div', 'dv-cc-sub', r.funcao ? `${r.entradas != null ? `${dv.int(r.entradas)} recebidos da Aline` : 'leads recebidos da Aline'}${r.desqualificados ? ` · ${dv.int(r.desqualificados)} fora` : ''}${r.entradas ? ` · ${dv.pct0(ag / r.entradas)}% recuperados` : ''}` : `${r.entradas != null ? `${dv.int(r.entradas)} chegaram · ` : ''}${r.meta ? `${dv.pct0(ag / r.meta)}% da meta` : ''}`);
+      const serie = pd.status === 'ok' ? pd.data.filter((x) => x.pessoa === r.pessoa && x.dia.slice(0, 7) === dvM() && dv.num(x.agendados) != null).map((x) => ({d: x.dia.slice(0, 10), v: dv.num(x.agendados)})).sort((a, b) => (a.d < b.d ? -1 : 1)) : [];
+      const spark = dvMk('div', 'dv-cc-spark');
+      dvSparkline(spark, serie, 'agendados', r.funcao ? null : {Aline: 4, Lara: 5.5, Lu: 5.5}[r.pessoa]);
+      card.append(head, status, val, sub, spark);
+      if (open) {
+        const pct = (a, b) => (a != null && b ? `${dv.pct0(a / b)}%` : '—');
+        const stats = dvMk('div', 'dv-cc-stats');
+        [[pct(r.qualificados, r.entradas), 'Chegaram → qualificados', `${r.qualificados ?? '—'} de ${r.entradas ?? '—'}`],
+         [pct(r.compareceram, ag), 'Agendados → entraram', `${r.compareceram ?? '—'} de ${ag}`],
+         [pct(r.fecharam, ag), 'Agendados → vendas', `${r.fecharam} de ${ag}`]].forEach(([v, l, c]) => {
+          const st = dvMk('div', 'dv-cc-stat');
+          st.dataset.tip = `${l}|${c}`;
+          st.append(dvMk('b', '', v), dvMk('span', '', l), dvMk('small', '', c));
+          stats.append(st);
+        });
+        card.append(stats);
+        const det = dvMk('div', 'dv-cc-detail');
+        const meus = leadsP.filter((x) => x.pessoa === r.pessoa);
+        const colL = dvMk('div');
+        colL.append(dvMk('h3', '', `Leads agendados (${meus.length})`));
+        const ll = dvMk('div', 'dv-cc-list');
+        if (!meus.length) ll.append(dvMk('div', 'dv-cc-empty', 'Nenhum lead com nome nesse período.'));
+        meus.slice().sort((a, b) => (a.dia < b.dia ? 1 : -1)).forEach((x) => {
+          const it = dvMk('div', 'dv-cc-item');
+          it.append(dvMk('span', '', fmtD(x.dia)), dvMk('span', '', x.lead), dvMk('em', sim(x.compareceu) || sim(x.fechou) ? '' : 'no', sim(x.fechou) ? 'fechou' : sim(x.compareceu) ? 'entrou' : x.closer || 'agendado'));
+          ll.append(it);
+        });
+        colL.append(ll);
+        const minhas = vendasP.filter((x) => x.pre_venda === r.pessoa);
+        const colF = dvMk('div');
+        colF.append(dvMk('h3', '', `Fechamentos dos leads dela (${minhas.length})`));
+        const lf = dvMk('div', 'dv-cc-list');
+        if (!minhas.length) lf.append(dvMk('div', 'dv-cc-empty', 'Nenhum fechamento nesse período.'));
+        minhas.slice().sort((a, b) => ((a.data || '') < (b.data || '') ? 1 : -1)).forEach((x) => {
+          const it = dvMk('div', 'dv-cc-item');
+          it.append(dvMk('span', '', fmtD(x.data)), dvMk('span', '', `${x.cliente || '—'}${x.closer ? ` · ${x.closer}` : ''}`), dvMk('b', '', dvValor(x)));
+          if (x.tipo !== 'Retroativo') it.append(dvTagFunil(x));
+          lf.append(it);
+        });
+        colF.append(lf);
+        det.append(colL, colF);
+        card.append(det);
+      }
+      return card;
+    }));
+  });
+  dash.draw('bubbles', (el) => {
+    const d = dash.data('por_closer');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const rows = dvDoP(d.data);
+    if (!rows.length) { dvVazio(el, 'Nenhuma venda registrada nesse período.'); return; }
+    const v = dash.data('vendas');
+    const rr = dash.data('reunioes');
+    const vendasP = v.status === 'ok' ? dvVendasDoP(v.data) : [];
+    const reuAll = rr.status === 'ok' ? rr.data : [];
+    const reuP = reuAll.filter((x) => x.dia.slice(0, dvP().length) === dvP());
+    const cd = dash.data('closer_diario');
+    const agP = cd.status === 'ok' ? cd.data.filter((x) => x.dia.slice(0, dvP().length) === dvP()) : [];
+    const chave = (n) => (n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/\s+/).slice(0, 2).join(' ');
+    const reuniaoDe = (closer, nome, ate) => reuAll.filter((x) => x.closer === closer && x.status === 'Feita' && chave(x.lead) === chave(nome) && (!ate || x.dia <= ate)).sort((a, b) => (a.dia < b.dia ? 1 : -1))[0];
+    const fmtD = (x) => (x ? `${x.slice(8, 10)}/${x.slice(5, 7)}` : '—');
+    const tintRows = rows.filter((x) => x.valor > 0);
+    el.replaceChildren(...rows.map((r) => {
+      const open = dvOpenCloser === r.closer;
+      const card = dvMk('article', `dv-ccard${open ? ' open' : ''}`);
+      card.dataset.k = r.closer;
+      const ti = tintRows.findIndex((x) => x.closer === r.closer);
+      const base = ti >= 0 ? dvRingTones[ti % 6] : [140, 118, 168];
+      card.style.setProperty('--tint', dvShadeOf(base, -0.08).join(', '));
+      card.style.setProperty('--tint-d', dvShadeOf(base, -0.45).join(', '));
+      const vs = vendasP.filter((x) => x.closer === r.closer);
+      const novas = vs.filter((x) => x.tipo === 'Venda nova');
+      const reusDia = reuP.filter((x) => x.closer === r.closer);
+      const anteriores = novas.map((x) => { const m = reuniaoDe(r.closer, x.cliente, x.data || null); return m && !reusDia.some((y) => y === m) ? {...m, anterior: true} : null; }).filter(Boolean);
+      const reus = [...reusDia, ...anteriores];
+      const feitas = reusDia.filter((x) => x.status === 'Feita');
+      const agenda = agP.filter((x) => x.closer === r.closer);
+      const agendadas = agenda.reduce((a, x) => a + (Number(x.agendadas) || 0), 0);
+      const head = dvMk('div', 'dv-cc-head');
+      const nm = dvMk('span', 'dv-cc-name', r.closer);
+      const btn = dvMk('button', 'dv-cc-exp');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? `Fechar detalhes de ${r.closer}` : `Ver reuniões e fechamentos de ${r.closer}`);
+      btn.append(dvExpIcon(open));
+      btn.onclick = (e) => { e.stopPropagation(); dvOpenCloser = open ? null : r.closer; dash.draw('bubbles'); };
+      head.append(nm, btn);
+      const val = dvMk('div', 'dv-cc-val', dv.mil(r.valor));
+      val.append(dvMk('small', '', 'mil'));
+      const nReu = Math.max(agendadas, feitas.length);
+      const status = dvMk('div', 'dv-cc-status');
+      const pill = dvMk('span', 'dv-cc-pill');
+      pill.append(dvMk('i'), document.createTextNode(`${novas.length} ${novas.length === 1 ? 'venda' : 'vendas'}`));
+      status.append(dvMk('span', '', 'Faturamento'), pill);
+      const sub = dvMk('div', 'dv-cc-sub', `${nReu} ${nReu === 1 ? 'reunião' : 'reuniões'} na agenda`);
+      // minigráfico: reuniões na agenda por dia no mês, última semana na cor do closer
+      const serie = cd.status === 'ok' ? cd.data.filter((x) => x.closer === r.closer && x.dia.slice(0, 7) === dvM()).map((x) => ({d: x.dia.slice(0, 10), v: Number(x.agendadas) || 0})).sort((a, b) => (a.d < b.d ? -1 : 1)) : [];
+      const spark = dvMk('div', 'dv-cc-spark');
+      dvSparkline(spark, serie, (v) => (v === 1 ? 'reunião' : 'reuniões'), 4);
+      card.append(head, status, val, sub, spark);
+      if (open) {
+        const realizadasCd = agenda.reduce((a, x) => a + (Number(x.realizadas) || 0), 0);
+        const feitasN = Math.max(feitas.length, realizadasCd);
+        const pct = (a, b) => (b ? `${dv.pct0(a / b)}%` : '—');
+        const incompleto = feitasN < novas.length || (nReu >= 5 && feitasN / nReu < 0.2);
+        const semDado = 'faltam dados';
+        const motivo = 'o closer quase não posta relatório nem link do Fathom, então não dá pra saber quantas calls aconteceram';
+        const stats = dvMk('div', 'dv-cc-stats');
+        [[incompleto ? '—' : pct(feitasN, nReu), 'Agendadas → feitas', incompleto ? semDado : `${feitasN} de ${nReu}`, incompleto ? motivo : 'quantos leads marcados entraram na call'],
+         [incompleto ? '—' : pct(novas.length, feitasN), 'Feitas → vendas', incompleto ? semDado : `${novas.length} de ${feitasN}`, incompleto ? motivo : 'conversão das calls que aconteceram'],
+         [pct(novas.length, nReu), 'Agendadas → vendas', `${novas.length} de ${nReu}`, 'conversão de ponta a ponta']].forEach(([v, l, c, tip]) => {
+          const st = dvMk('div', 'dv-cc-stat');
+          st.dataset.tip = `${l}|${c}|${tip}`;
+          st.append(dvMk('b', '', v), dvMk('span', '', l), dvMk('small', '', c));
+          stats.append(st);
+        });
+        card.append(stats);
+        const det = dvMk('div', 'dv-cc-detail');
+        const colR = dvMk('div');
+        colR.append(dvMk('h3', '', `Reuniões com nome (${reusDia.length}${agendadas > reusDia.length ? ` de ${agendadas} na agenda` : ''})`));
+        const lr = dvMk('div', 'dv-cc-list');
+        if (!reus.length) lr.append(dvMk('div', 'dv-cc-empty', agendadas ? `${agendadas} ${agendadas === 1 ? 'reunião' : 'reuniões'} na agenda, mas o closer não postou relatório com os nomes.` : 'Nenhuma reunião registrada nesse período.'));
+        else if (agendadas > reusDia.length) lr.append(dvMk('div', 'dv-cc-empty', `${agendadas - reusDia.length} da agenda sem relatório com nome.`));
+        reus.slice().sort((a, b) => (a.dia < b.dia ? 1 : -1)).forEach((x) => {
+          const it = dvMk('div', 'dv-cc-item');
+          it.append(dvMk('span', '', fmtD(x.dia)), dvMk('span', '', x.lead), dvMk('em', x.status === 'Feita' ? '' : 'no', x.anterior ? 'reunião anterior · fechou' : x.status === 'Feita' ? (x.duracao_min ? `${x.duracao_min} min` : 'feita') : 'não aconteceu'));
+          if (x.objetivo || x.oferta || x.proximo) it.dataset.tip = [x.lead, x.objetivo, x.oferta ? `Oferta: ${x.oferta}` : '', x.proximo ? `Próximo passo: ${x.proximo}` : ''].filter(Boolean).map((l) => l.length > 90 ? `${l.slice(0, 88)}…` : l).join('|');
+          if (x.link) {
+            const a = dvMk('a', 'dv-cc-link', 'ver gravação');
+            a.href = x.link;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            it.append(a);
+          }
+          lr.append(it);
+        });
+        colR.append(lr);
+        const colF = dvMk('div');
+        colF.append(dvMk('h3', '', `Fechamentos (${vs.length})`));
+        const lf = dvMk('div', 'dv-cc-list');
+        if (!vs.length) lf.append(dvMk('div', 'dv-cc-empty', 'Nenhum fechamento nesse período.'));
+        vs.slice().sort((a, b) => ((a.data || '') < (b.data || '') ? 1 : -1)).forEach((x) => {
+          const it = dvMk('div', 'dv-cc-item');
+          const reu = x.tipo === 'Venda nova' ? reuniaoDe(r.closer, x.cliente, x.data || null) : null;
+          const nome = dvMk('span', '', x.cliente || '—');
+          if (reu) nome.title = `reunião em ${fmtD(reu.dia)}`;
+          it.append(dvMk('span', '', x.tipo === 'Retroativo' ? 'retro' : fmtD(x.data)), nome, dvMk('b', '', dvValor(x)));
+          const sub2 = x.tipo === 'Retroativo' ? null : dvTagFunil(x);
+          if (sub2 && reu) sub2.append(dvMk('span', '', `reunião em ${fmtD(reu.dia)}${x.fonte_data && /lista/.test(x.fonte_data) ? ' · data da venda = quando entrou na lista da Aline' : ''}`));
+          if (sub2) it.append(sub2);
+          lf.append(it);
+        });
+        colF.append(lf);
+        det.append(colR, colF);
+        card.append(det);
+      }
+      return card;
+    }));
+  });
+
+  dash.draw('diario', (el) => {
+    const d = dash.data('funil_diario');
+    el.replaceChildren();
+    if (d.status !== 'ok') return;
+    const rows = d.data.filter((r) => r.dia.slice(0, 7) === dvM() && dv.num(r.agendadas) != null)
+      .map((r) => ({iso: r.dia.slice(0, 10), dia: new Date(`${r.dia.slice(0, 10)}T12:00:00Z`), ag: dv.num(r.agendadas), re: dv.num(r.realizadas)}));
+    const W = Math.max(240, el.clientWidth || 360), H = 210, m = {t: 10, r: 4, b: 24, l: 24};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const x0 = d3.scaleBand(rows.map((r) => +r.dia), [m.l, W - m.r]).padding(0.3);
+    const x1 = d3.scaleBand(['ag', 're'], [0, x0.bandwidth()]).padding(0.2);
+    const y = d3.scaleLinear([0, Math.max(d3.max(rows, (r) => r.ag) || 0, 13) * 1.1], [H - m.b, m.t]).nice();
+    const ticks = y.ticks(3);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).style('stroke', 'var(--color-fg)').style('stroke-opacity', .12);
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((t) => t);
+    const fmt = d3.utcFormat('%d/%m');
+    const groups = svg.append('g').attr('class', 'dv-scope').selectAll('g').data(rows).join('g')
+      .attr('transform', (r) => `translate(${x0(+r.dia)},0)`)
+      .attr('data-k', (r) => fmt(r.dia))
+      .attr('data-tip', (r) => `${fmt(r.dia)}|Agendadas ${r.ag} · Feitas ${r.re ?? '—'}${r.re != null && r.ag ? ` (${dv.pct0(r.re / r.ag)}%)` : ''}`);
+    groups.style('opacity', (r) => (dvD() && r.iso !== dvD() ? 0.3 : 1));
+    groups.append('rect').attr('x', 0).attr('width', x0.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).style('fill', 'transparent');
+    [['ag', 'var(--dv-ink-soft)'], ['re', 'var(--dv-ink)']].forEach(([k, col]) => {
+      groups.filter((r) => r[k] != null).append('rect').attr('x', x1(k)).attr('width', x1.bandwidth())
+        .attr('y', (r) => y(r[k])).attr('height', (r) => y(0) - y(r[k])).attr('rx', Math.min(3, x1.bandwidth() / 2)).style('fill', col);
+    });
+    [[13, .35], [8, .8]].forEach(([v, o]) => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(v)).attr('y2', y(v)).attr('stroke-dasharray', '3 4')
+        .style('stroke', 'var(--color-fg)').style('stroke-opacity', o).style('pointer-events', 'none');
+    });
+    const step = Math.ceil(rows.length / Math.max(1, Math.floor((W - m.l) / 40)));
+    svg.append('g').selectAll('text').data(rows.filter((_, i) => i % step === 0)).join('text')
+      .attr('x', (r) => x0(+r.dia) + x0.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((r) => fmt(r.dia));
+  });
+
+  dash.draw('ruler', (el) => {
+    const d = dash.data('resumo');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const r = dvDoP(d.data)[0];
+    dvRuler(el, r ? r.comparecimento : null, dv.META_COMP);
+  });
+
+  dash.draw('pagamento', (el) => {
+    const d = dash.data('por_pagamento');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    const rows = dvDoP(d.data);
+    if (!rows.length) { dvVazio(el, 'Nenhuma venda registrada nesse período.'); return; }
+    el.replaceChildren(...rows.map((r) => {
+      const row = dvMk('div');
+      row.append(dvMk('span', '', r.pagamento), dvMk('b', '', `${r.vendas} ${r.vendas === 1 ? 'venda' : 'vendas'}`));
+      return row;
+    }));
+  });
+
+  dash.draw('conf', (tb) => {
+    const d = dash.data('conferencia');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    d.data.forEach((r) => {
+      const tr = dvMk('tr');
+      tr.dataset.key = r.ordem;
+      tr.dataset.tip = `${r.checagem}|${r.detalhe}`;
+      const pill = dvMk('span', /^bate$/i.test(r.resultado) ? 'dv-pill ok' : /ressalva|parcial/i.test(r.resultado) ? 'dv-pill' : 'dv-pill bad', r.resultado);
+      const td = dvMk('td');
+      td.append(pill);
+      tr.append(dvMk('td', '', r.checagem), td, dvMk('td', 'dv-hide-sm', r.detalhe));
+      tb.append(tr);
+    });
+  });
+
+  window.dvVendaRow = (r, cols) => {
+    const tr = dvMk('tr');
+    tr.dataset.key = r.n;
+    cols.forEach(([t, c]) => tr.append(dvMk('td', c, t)));
+    return tr;
+  };
+  // etiqueta do funil da venda (nome curto, padronizado)
+  window.dvFunil = (f) => {
+    const s = (f || '').trim();
+    if (!s) return '';
+    return s.replace(/^(Formulário|Form)\s+(?=Call?endly)/i, '').replace(/Callendly/gi, 'Calendly').replace(/^Calendly\s*-\s*/i, 'Calendly ').replace(/R\$\s*5/i, '5k').replace(/\s*-\s*/g, ' ').replace(/(\d)K\b/g, '$1k').replace(/^Low ticket$/i, 'Low Ticket');
+  };
+  window.dvTagFunil = (x) => {
+    const sub = dvMk('div', 'dv-cc-sub');
+    const f = dvFunil(x.funil);
+    sub.append(dvMk('em', f ? 'dv-cc-tag' : 'dv-cc-tag vazio', f || 'funil não informado'));
+    return sub;
+  };
+  window.dvValor = (r) => (dv.num(r.valor) != null ? dv.brl(dv.num(r.valor)) : `${dv.brl(dv.num(r.recebido) || 0)} recebido`);
+
+  dash.draw('tabela', (tb) => {
+    const d = dash.data('vendas');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    dvVendasDoP(d.data).forEach((r) => tb.append(dvVendaRow(r, [[r.tipo, ''], [r.closer, ''], [r.funil || '—', 'dv-hide-sm'], [dvValor(r), 'num'], [r.pagamento, 'dv-hide-sm']])));
+  });
+</script>
+
+<script>
+  // PRÉ-VENDAS
+  const dvPvStages = [
+    {key: 'entradas', label: 'Leads que chegaram (CRM)', short: 'Chegaram', tiny: 'Cheg.'},
+    {key: 'conversados', label: 'Leads que conversaram (CRM)', short: 'Conversaram', tiny: 'Conv.'},
+    {key: 'medios', label: 'Médio qualificados (relatório)', short: 'Médios', tiny: 'Méd.'},
+    {key: 'qualificados', label: 'Qualificados (CRM)', short: 'Qualificados', tiny: 'Qual.'},
+    {key: 'agendados', label: 'Agendaram reunião (relatado; Aline pelo CRM)', short: 'Agendaram', tiny: 'Agend.'},
+    {key: 'compareceram', label: 'Entraram na reunião', short: 'Entraram', tiny: 'Entr.'},
+    {key: 'fecharam', label: 'Fecharam (lista oficial)', short: 'Fecharam', tiny: 'Fech.'},
+  ];
+
+  dash.draw('pv-chip', (el) => {
+    el.replaceChildren();
+    if (!dv.sel.pv) return;
+    const b = dvMk('button', 'dv-pill dark', `${dv.sel.pv} ×`);
+    b.dataset.clear = 'pv';
+    b.setAttribute('aria-label', 'Limpar filtro');
+    el.append(b);
+  });
+
+  dash.draw('pv-list', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.textContent = '—'; return; }
+    el.replaceChildren(...dvDoP(d.data).map((r) => {
+      const row = dvMk('div', `dv-row${dv.sel.pv === r.pessoa ? ' dv-picked' : ''}`);
+      row.dataset.k = r.pessoa;
+      row.dataset.sel = 'pv';
+      row.tabIndex = 0;
+      row.setAttribute('role', 'button');
+      row.dataset.tip = `${r.pessoa}|${r.entradas != null ? `${dv.int(r.entradas)} leads chegaram · ` : ''}${r.agendados == null ? 'agendados: falta registrar' : `${r.agendados} agendados`}${r.agendados_crm != null ? ` (CRM: ${r.agendados_crm})` : ''}|${r.fecharam} ${r.fecharam === 1 ? 'fechou' : 'fecharam'}${r.faturamento ? ` · ${dv.brl(r.faturamento)}` : ''}|${r.funcao ? 'recuperação: reagenda os leads que a Aline passa (sem meta de SDR)' : `meta ${dv.dec(r.meta)}`}`;
+      const val = dvMk('div', 'dv-row-val');
+      if (r.agendados == null) val.append(dvMk('small', '', 'sem registro'));
+      else val.append(document.createTextNode(String(r.agendados)), dvMk('small', '', r.meta ? ` / ${r.meta}` : ` reagendados${r.entradas != null ? ` de ${dv.int(r.entradas)}` : ''}`));
+      const p = r.agendados == null || !r.meta ? null : r.agendados / r.meta;
+      const foot = dvMk('div', 'dv-foot');
+      foot.append(dvMk('span', '', r.entradas == null ? 'sem registro' : `${dv.int(r.entradas)} ${r.funcao ? 'recebidos da Aline' : 'chegaram'} · ${r.fecharam} ${r.fecharam === 1 ? 'fechou' : 'fecharam'}`),
+        dvMk('span', r.funcao ? 'dv-pill ok' : p == null ? 'dv-pill' : 'dv-pill ok', r.funcao ? 'recuperação' : p == null ? 'falta registrar' : `${dv.pct0(p)}% da meta`));
+      row.append(dvMk('span', 'dv-row-name', r.funcao ? `${r.pessoa} · recuperação` : r.pessoa), val, dvTicks(r.agendados, r.meta || Math.max(r.entradas || 0, r.agendados || 0, 1), null, false), foot);
+      return row;
+    }));
+  });
+
+  dash.draw('pv-gauge', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const rows = dvDoP(d.data);
+    const meta = d3.sum(rows, (r) => r.meta);
+    dvGauge(el, rows.filter((r) => !r.funcao).map((r) => ({k: r.pessoa, value: r.agendados ?? 0, tip: `${r.pessoa}|${r.agendados ?? 0} agendados · meta ${r.meta}`})), meta);
+  });
+  const dvPvSum = (name, fn) => dash.draw(name, (el) => {
+    const d = dash.data('pv_pessoa');
+    el.textContent = d.status === 'ok' ? fn(dvDoP(d.data).filter((r) => !r.funcao)) : '—';
+  });
+  dvPvSum('pv-total', (rows) => dv.int(d3.sum(rows, (r) => r.agendados ?? 0)));
+  dvPvSum('pv-meta', (rows) => dv.int(d3.sum(rows, (r) => r.meta)));
+  dvPvSum('pv-pct', (rows) => dv.pct0(d3.sum(rows, (r) => r.agendados ?? 0) / d3.sum(rows, (r) => r.meta)));
+
+  dash.draw('pv-ruler', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const c = dvDoP(d.data).filter((r) => r.compareceram != null && r.agendados);
+    dvRuler(el, c.length ? d3.sum(c, (r) => r.compareceram) / d3.sum(c, (r) => r.agendados) : null, dv.META_COMP);
+  });
+
+
+  // gráfico de barras finas lado a lado, no mesmo desenho do gráfico de Reuniões da visão geral
+  window.dvBars = (el, {days, series, H = 210, metas = [], tip}) => {
+    const W = Math.max(240, el.clientWidth || 360), m = {t: 10, r: 4, b: 24, l: 24};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const x0 = d3.scaleBand(days, [m.l, W - m.r]).padding(0.3);
+    const x1 = d3.scaleBand(series.map((s) => s.key), [0, x0.bandwidth()]).padding(0.2);
+    const max = d3.max(days, (dia) => d3.max(series, (s) => s.val(dia) || 0)) || 0;
+    const y = d3.scaleLinear([0, Math.max(max, ...metas.map((v) => v[0])) * 1.1 || 1], [H - m.b, m.t]).nice();
+    const ticks = y.ticks(3).filter(Number.isInteger);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).style('stroke', 'var(--color-fg)').style('stroke-opacity', .12);
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((t) => t);
+    const fmtDay = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+    const groups = svg.append('g').attr('class', 'dv-scope').selectAll('g').data(days).join('g')
+      .attr('transform', (dia) => `translate(${x0(dia)},0)`).attr('data-k', fmtDay).attr('data-tip', (dia) => tip(dia, fmtDay(dia)));
+    groups.style('opacity', (dia) => (dvD() && dia !== dvD() ? 0.3 : 1));
+    groups.append('rect').attr('x', 0).attr('width', x0.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).style('fill', 'transparent');
+    series.forEach((s, i) => {
+      groups.filter((dia) => s.val(dia)).append('rect').attr('x', x1(s.key)).attr('width', x1.bandwidth())
+        .attr('y', (dia) => y(s.val(dia))).attr('height', (dia) => y(0) - y(s.val(dia))).attr('rx', Math.min(3, x1.bandwidth() / 2))
+        .style('fill', 'var(--dv-ink)').attr('fill-opacity', dvInkShade(i, series.length));
+    });
+    metas.forEach(([v, o]) => {
+      svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(v)).attr('y2', y(v)).attr('stroke-dasharray', '3 4')
+        .style('stroke', 'var(--color-fg)').style('stroke-opacity', o).style('pointer-events', 'none');
+    });
+    const step = Math.ceil(days.length / Math.max(1, Math.floor((W - m.l) / 40)));
+    svg.append('g').selectAll('text').data(days.filter((_, i) => i % step === 0)).join('text')
+      .attr('x', (dia) => x0(dia) + x0.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(fmtDay);
+  };
+  // tons de tinta do claro ao escuro, como agendadas (claro) e feitas (escuro)
+  window.dvInkShade = (i, n) => (n <= 1 ? 1 : 0.22 + (0.78 * i) / (n - 1));
+  dash.draw('pv-daily', (el) => {
+    const d = dash.data('prevendas_diario');
+    el.replaceChildren();
+    if (d.status !== 'ok') return;
+    const people = ['Aline', 'Lara', 'Lu'];
+    const days = [...new Set(d.data.filter((r) => r.dia.slice(0, 7) === dvM() && dv.num(r.agendados) != null).map((r) => r.dia.slice(0, 10)))].sort();
+    const val = (p, dia) => { const r = d.data.find((x) => x.dia.slice(0, 10) === dia && x.pessoa === p); return r ? dv.num(r.agendados) ?? 0 : 0; };
+    const W = Math.max(240, el.clientWidth || 360), H = 220, m = {t: 10, r: 4, b: 24, l: 24};
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+    const x = d3.scaleBand(days, [m.l, W - m.r]).padding(0.18);
+    const tot = (dia) => d3.sum(people, (p) => val(p, dia));
+    const y = d3.scaleLinear([0, Math.max(15, d3.max(days, tot) || 0) * 1.08], [H - m.b, m.t]).nice();
+    const ticks = y.ticks(3).filter(Number.isInteger);
+    svg.append('g').selectAll('line').data(ticks).join('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', (t) => y(t)).attr('y2', (t) => y(t)).style('stroke', 'var(--color-fg)').style('stroke-opacity', .12);
+    svg.append('g').selectAll('text').data(ticks).join('text').attr('x', m.l - 6).attr('y', (t) => y(t)).attr('dy', '0.32em').attr('text-anchor', 'end')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text((t) => t);
+    const fmtDay = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}`;
+    const g = svg.append('g').attr('class', 'dv-scope').selectAll('g').data(days).join('g')
+      .attr('data-k', fmtDay).attr('data-tip', (dia) => `${fmtDay(dia)}|${people.map((p) => `${p} ${val(p, dia)}`).join(' · ')}|total ${tot(dia)} agendados`)
+      .style('opacity', (dia) => (dvD() && dia !== dvD() ? 0.3 : 1));
+    g.append('rect').attr('x', (dia) => x(dia)).attr('width', x.bandwidth()).attr('y', m.t).attr('height', H - m.b - m.t).style('fill', 'transparent');
+    const gap = 1.5, fs = Math.max(7, Math.min(10, x.bandwidth() * 0.95));
+    g.each(function (dia) {
+      let base = 0;
+      people.forEach((p, i) => {
+        const v = val(p, dia);
+        if (!v) return;
+        const y0 = y(base), y1 = y(base + v);
+        const h = Math.max(1, y0 - y1 - gap);
+        const sel = d3.select(this);
+        sel.append('rect').attr('x', x(dia)).attr('width', x.bandwidth()).attr('y', y1).attr('height', h).attr('rx', Math.min(3, x.bandwidth() / 2))
+          .style('fill', 'var(--dv-ink)').attr('fill-opacity', dvInkShade(i, people.length)).attr('data-k', p);
+        if (h >= fs + 2 && x.bandwidth() >= 6.5) {
+          sel.append('text').attr('x', x(dia) + x.bandwidth() / 2).attr('y', y1 + h / 2).attr('dy', '0.35em').attr('text-anchor', 'middle')
+            .style('font-size', `${fs}px`).style('pointer-events', 'none').style('fill', i === 0 ? 'var(--dv-ink)' : 'var(--color-bg)').text(v);
+        }
+        base += v;
+      });
+    });
+    svg.append('line').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(15)).attr('y2', y(15)).attr('stroke-dasharray', '3 4').style('stroke', 'var(--color-fg)').style('stroke-opacity', .45).style('pointer-events', 'none');
+    const step = Math.ceil(days.length / Math.max(1, Math.floor((W - m.l) / 40)));
+    svg.append('g').selectAll('text').data(days.filter((_, i) => i % step === 0)).join('text')
+      .attr('x', (dia) => x(dia) + x.bandwidth() / 2).attr('y', H - 6).attr('text-anchor', 'middle')
+      .style('fill', 'var(--color-fg-muted)').style('font-size', 'var(--cds-font-size-caption)').text(fmtDay);
+  });
+
+  dash.draw('pv-legend', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    dvLegend(el, dvPeople(dvDoP(d.data), 'pessoa'));
+  });
+
+  dash.draw('pv-stages', (el) => {
+    const d = dash.data('pv_pessoa');
+    if (d.status !== 'ok') { el.replaceChildren(); return; }
+    const base = dvDoP(d.data);
+    const rows = dv.sel.pv ? base.filter((r) => r.pessoa === dv.sel.pv) : base;
+    dvGrouped(el, dvPvStages, dvPeople(rows, 'pessoa'), (p, k) => rows.find((r) => r.pessoa === p)[k]);
+  });
+
+  dash.draw('pv-leads', (tb) => {
+    const d = dash.data('leads');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    const yes = (v) => (/^(s|sim|1|true|x)$/i.test(String(v).trim()) ? 'Sim' : /^(n|não|nao|0|false)$/i.test(String(v).trim()) ? 'Não' : '—');
+    dvDiaDoP(d.data).filter((r) => !dv.sel.pv || r.pessoa === dv.sel.pv).forEach((r) => {
+      const tr = dvMk('tr');
+      tr.dataset.key = `${encodeURIComponent(r.dia)},${encodeURIComponent(r.lead)}`;
+      tr.dataset.k = r.pessoa;
+      [[r.dia, ''], [r.lead, ''], [r.pessoa, ''], [r.qualificacao || '—', 'dv-hide-sm'], [r.closer || '—', 'dv-hide-sm'], [yes(r.agendou), ''], [yes(r.compareceu), ''], [yes(r.fechou), '']]
+        .forEach(([t, c]) => tr.append(dvMk('td', c, t)));
+      tb.append(tr);
+    });
+  });
+
+  dash.draw('pv-leads-empty', (el) => {
+    const d = dash.data('leads');
+    el.textContent = d.status === 'ok' && dvDiaDoP(d.data).length === 0 ? 'A lista começa a encher quando as SDRs passarem o nome de cada lead no relatório do dia.' : '';
+  });
+</script>
+<script>
+  dash.draw('crm-funil', (tb) => {
+    const d = dash.data('crm_funil_diario');
+    const pv = dash.data('prevendas_diario');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    const m = dvM();
+    const rows = d.data.filter((r) => r.funil === 'DIRECT' && (r.dia || '').startsWith(m));
+    if (!rows.length) { const tr = dvMk('tr'); const td = dvMk('td', '', 'Sem dados do Kommo para este mês.'); td.colSpan = 3; tr.append(td); tb.append(tr); return; }
+    const soma = (k) => rows.reduce((a, r) => a + (Number(r[k]) || 0), 0);
+    const etapas = [['Leads', 'leads'], ['Contato inicial', 'contato_inicial'], ['Respondendo perguntas', 'respondendo'], ['MQL (passou para a pré-venda)', 'mql'], ['Reunião agendada', 'agendada'], ['Reunião realizada', 'realizada']];
+    const pct = (a, b) => (b ? Math.round((a / b) * 1000) / 10 : 0).toLocaleString('pt-BR') + '%';
+    let ant = null;
+    etapas.forEach(([nome, k]) => {
+      const v = soma(k);
+      const tr = dvMk('tr');
+      tr.dataset.key = k;
+      tr.append(dvMk('td', '', nome), dvMk('td', 'dv-num', v.toLocaleString('pt-BR')), dvMk('td', '', ant == null ? '—' : pct(v, ant)));
+      tb.append(tr);
+      ant = v;
+    });
+    if (pv.status === 'ok') {
+      const ag = pv.data.filter((r) => (r.dia || '').startsWith(m) && (r.pessoa === 'Lara' || r.pessoa === 'Lu')).reduce((a, r) => a + (Number(r.agendados_relatado ?? r.agendados) || 0), 0);
+      const tr = dvMk('tr');
+      tr.dataset.key = 'relatado';
+      tr.append(dvMk('td', '', 'Agendados relatados pela Lara e pela Lu'), dvMk('td', 'dv-num', ag.toLocaleString('pt-BR')), dvMk('td', '', ag > soma('mql') ? 'acima do MQL no Kommo' : '—'));
+      tb.append(tr);
+    }
+  });
+  dash.draw('crm-anuncios', (tb) => {
+    const d = dash.data('midia_anuncios');
+    tb.replaceChildren();
+    if (d.status !== 'ok') return;
+    const m = dvM();
+    d.data.filter((r) => r.mes === m && Number(r.leads) > 0)
+      .sort((a, b) => Number(b.leads) - Number(a.leads) || Number(b.cliques) - Number(a.cliques))
+      .slice(0, 10)
+      .forEach((r) => {
+        const tr = dvMk('tr');
+        tr.dataset.key = r.anuncio_id;
+        tr.append(dvMk('td', '', r.campanha), dvMk('td', '', r.anuncio), dvMk('td', 'dv-num', Number(r.leads).toLocaleString('pt-BR')), dvMk('td', 'dv-num dv-hide-sm', Number(r.cliques).toLocaleString('pt-BR')), dvMk('td', 'dv-num', (Number(r.ctr) * 100).toLocaleString('pt-BR', {maximumFractionDigits: 1}) + '%'));
+        tb.append(tr);
+      });
+  });
+</script>
+
+<p class="dv-gh-foot">Atualizado em 17/11/2026 às 19:28.</p>
+</div></body></html>
