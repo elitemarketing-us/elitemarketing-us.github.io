@@ -16,8 +16,8 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
 .dv-gh-foot{text-align:center;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);padding:24px 0}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script>window.DV_DATASETS=['vendas', 'funil_diario', 'closer_diario', 'prevendas_diario', 'leads', 'reunioes', 'conferencia', 'crm_funil_diario', 'midia_anuncios', 'metas', 'meses'];window.DV_PARAMS={"mes":"2026-11","dia":""};window.DV_VERSAO="202611181014";</script>
-<script src="dash-shim.js?v=202611181014"></script>
+<script>window.DV_DATASETS=['vendas', 'funil_diario', 'closer_diario', 'prevendas_diario', 'leads', 'reunioes', 'conferencia', 'crm_funil_diario', 'midia_anuncios', 'entradas_semana', 'metas', 'meses'];window.DV_PARAMS={"mes":"2026-11","dia":""};window.DV_VERSAO="202611182111";</script>
+<script src="dash-shim.js?v=202611182111"></script>
 </head><body><div id="dash-root">
 
 <style>
@@ -163,6 +163,7 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 10px 28px rgba(30, 24, 20, .22);
     -webkit-backdrop-filter: blur(18px) saturate(1.1); backdrop-filter: blur(18px) saturate(1.1); }
   .dv-tip[hidden] { display: none; }
+  .dv-ent-resumo { margin: .25rem 0 .75rem; font-weight: 500; }
   .dv-tip-tx { display: grid; gap: .05rem; line-height: 1.3; }
   .dv-tip-tx div:first-child { color: rgba(255, 255, 255, .72); font-size: .92em; }
   .dv-tip-tx div:only-child { color: #fff; font-size: 1em; }
@@ -564,6 +565,30 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
       </section>
     </div>
 
+    <section class="dv-card" id="entradas-semana">
+      <h2>Entrada de leads por semana</h2>
+      <p>Quantos leads entraram no Kommo em cada semana (segunda a domingo), de onde vieram, quantas conversas o Direct abriu no Meta e quantos agendamentos a Lara e a Lu relataram. A semana em curso aparece como parcial.</p>
+      <p class="dv-ent-resumo" data-draw="ent-resumo" data-source="entradas_semana"></p>
+      <div class="dv-tablebox">
+        <table class="dv-table" data-source="entradas_semana" data-row-key="semana">
+          <thead><tr>
+            <th data-field="periodo">Semana</th>
+            <th data-field="kommo_total">Leads no Kommo</th>
+            <th data-field="por_dia">Por dia</th>
+            <th data-field="bolivia" class="dv-hide-sm">Anúncio Bolívia</th>
+            <th data-field="anuncio100" class="dv-hide-sm">Anúncio 100</th>
+            <th data-field="direct" class="dv-hide-sm">Direct</th>
+            <th data-field="calendly" class="dv-hide-sm">Calendly</th>
+            <th data-field="inlead" class="dv-hide-sm">InLead e Tally</th>
+            <th data-field="lowticket" class="dv-hide-sm">Low Ticket</th>
+            <th data-field="seguidores_organico" class="dv-hide-sm">Seguidores e orgânico</th>
+            <th data-field="meta_conversas_direct">Conversas Direct (Meta)</th>
+            <th data-field="agendados_sdr">Agendados (SDR)</th>
+          </tr></thead>
+          <tbody data-draw="ent-semana" data-source="entradas_semana"></tbody>
+        </table>
+      </div>
+    </section>
     <section class="dv-card" id="crm-kommo">
       <h2>Funil do Direct no Kommo</h2>
       <p>Leads do Instagram Direct que entraram no Kommo no mês e até que etapa chegaram, lidos do painel do Caio. Na última linha, o que a pré-venda relatou de agendados no mesmo mês, para comparar com o que está registrado no CRM.</p>
@@ -1948,6 +1973,66 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   });
 </script>
 <script>
+  const dvEntSemanas = () => {
+    const d = dash.data('entradas_semana');
+    if (d.status !== 'ok') return null;
+    const m = dvM();
+    const ini = new Date(m + '-01T12:00:00');
+    const de = new Date(ini.getTime() - 35 * 864e5).toISOString().slice(0, 10);
+    const fimMes = new Date(ini.getFullYear(), ini.getMonth() + 1, 0, 12).toISOString().slice(0, 10);
+    return d.data.filter((r) => r.semana >= de && r.semana <= fimMes);
+  };
+  dash.draw('ent-resumo', (el) => {
+    const rows = dvEntSemanas();
+    el.textContent = '';
+    if (!rows) return;
+    const cheias = rows.filter((r) => r.parcial !== 'Sim' && Number(r.dias) === 7 && r.kommo_total != null);
+    if (cheias.length < 2) { el.textContent = 'Ainda não há semanas completas suficientes para comparar.'; return; }
+    const n = (r, k) => Number(r[k]) || 0;
+    const media = (rs, k) => rs.reduce((a, r) => a + n(r, k), 0) / rs.length;
+    const ult = cheias.slice(-2), ant = cheias.slice(0, -2).slice(-3);
+    const fmt = (v) => Math.round(v).toLocaleString('pt-BR');
+    const kU = media(ult, 'kommo_total') / 7, cU = media(ult, 'meta_conversas_direct') / 7;
+    let txt = `Nas 2 últimas semanas completas entraram ${fmt(kU)} leads por dia no Kommo e o Direct abriu ${fmt(cU)} conversas por dia no Meta.`;
+    if (ant.length) {
+      const kA = media(ant, 'kommo_total') / 7, cA = media(ant, 'meta_conversas_direct') / 7;
+      const var_ = (a, b) => (b ? Math.round(((a - b) / b) * 100) : 0);
+      txt += ` Nas ${ant.length} semanas anteriores eram ${fmt(kA)} leads e ${fmt(cA)} conversas por dia (${var_(kU, kA) > 0 ? '+' : ''}${var_(kU, kA)}% e ${var_(cU, cA) > 0 ? '+' : ''}${var_(cU, cA)}%).`;
+    }
+    const parc = rows.find((r) => r.parcial === 'Sim');
+    if (parc && parc.kommo_total != null) txt += ` Semana atual (${parc.periodo}) parcial: ${fmt(n(parc, 'kommo_total'))} leads em ${parc.dias} dia(s) com dado do Kommo.`;
+    el.textContent = txt;
+  });
+  dash.draw('ent-semana', (tb) => {
+    const rows = dvEntSemanas();
+    tb.replaceChildren();
+    if (!rows) return;
+    if (!rows.length) { const tr = dvMk('tr'); const td = dvMk('td', '', 'Sem dados de entrada para este período.'); td.colSpan = 12; tr.append(td); tb.append(tr); return; }
+    const f = (v) => (v == null || v === '' ? '—' : Number(v).toLocaleString('pt-BR'));
+    rows.forEach((r) => {
+      const tr = dvMk('tr');
+      tr.dataset.key = r.semana;
+      const dias = Number(r.dias) || 0;
+      const pd = r.kommo_total != null && dias ? Math.round(Number(r.kommo_total) / dias) : null;
+      const seg = r.kommo_total == null ? null : (Number(r.seguidores) || 0) + (Number(r.organico) || 0);
+      tr.append(
+        dvMk('td', '', r.periodo + (r.parcial === 'Sim' ? ' (parcial)' : '')),
+        dvMk('td', 'dv-num', f(r.kommo_total)),
+        dvMk('td', 'dv-num', f(pd)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.bolivia)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.anuncio100)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.direct)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.calendly)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.inlead)),
+        dvMk('td', 'dv-num dv-hide-sm', f(r.lowticket)),
+        dvMk('td', 'dv-num dv-hide-sm', f(seg)),
+        dvMk('td', 'dv-num', f(r.meta_conversas_direct)),
+        dvMk('td', 'dv-num', f(r.agendados_sdr)));
+      tb.append(tr);
+    });
+  });
+</script>
+<script>
   dash.draw('crm-funil', (tb) => {
     const d = dash.data('crm_funil_diario');
     const pv = dash.data('prevendas_diario');
@@ -1993,5 +2078,5 @@ html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:
   });
 </script>
 
-<p class="dv-gh-foot">Atualizado em 18/11/2026 às 10:14.</p>
+<p class="dv-gh-foot">Atualizado em 18/11/2026 às 21:11.</p>
 </div></body></html>

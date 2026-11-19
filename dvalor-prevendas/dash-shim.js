@@ -43,10 +43,17 @@
   };
 
   const visivel = (el) => !el.closest('[hidden]');
+  // Cada elemento só é redesenhado quando os dados, o filtro ou a largura mudam.
+  // Sem isso, um tooltip que aparece/some (atributo hidden) redesenhava tudo e as partículas "pipocavam".
+  const ultimo = new WeakMap();
+  let forcar = false;
 
   const runDraw = (d) => {
     document.querySelectorAll(`[data-draw="${d.name}"]`).forEach((el) => {
       if (!visivel(el)) return;
+      const chave = ver + '|' + JSON.stringify(params) + '|' + Math.round(el.clientWidth);
+      if (!forcar && ultimo.get(el) === chave) return;
+      ultimo.set(el, chave);
       try {
         if (typeof d.fn === 'function') d.fn(el);
         else {
@@ -78,7 +85,7 @@
     calc(id, spec) { calcs[id] = spec; },
     loader() {},
     draw(name, fn) {
-      if (fn === undefined) { draws.filter((d) => d.name === name).forEach(runDraw); return; }
+      if (fn === undefined) { forcar = true; draws.filter((d) => d.name === name).forEach(runDraw); forcar = false; return; }
       draws.push({name, fn});
     },
     onData(fn) { onDataFns.push(fn); if (ready) fn(); },
@@ -109,7 +116,8 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     carregar();
-    new MutationObserver((ms) => { if (ms.some((m) => m.attributeName === 'hidden')) redraw(); })
+    // Só troca de aba/seção conta; tooltip e marcadores dentro dos gráficos não disparam redesenho.
+    new MutationObserver((ms) => { if (ms.some((m) => m.attributeName === 'hidden' && (m.target.matches('.dv-page, section') || m.target.querySelector('[data-draw]')))) redraw(); })
       .observe(document.body, {attributes: true, subtree: true, attributeFilter: ['hidden']});
     let t;
     window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(redraw, 150); });
