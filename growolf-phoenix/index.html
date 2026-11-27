@@ -59,6 +59,8 @@ li:before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;borde
 .bar span{font-size:12px;color:var(--mut);margin-top:6px;font-weight:600;text-transform:uppercase}
 .mix{display:flex;height:46px;border-radius:12px;overflow:hidden;margin:14px 0 10px;background:var(--card2)}
 .mix div{display:flex;align-items:center;padding-left:12px;color:var(--white);font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden}
+.mix div.sm{padding:0;justify-content:center;font-size:14px}
+.leg span b{font-weight:800}
 .leg{display:flex;gap:20px;font-size:14px;flex-wrap:wrap}.leg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 table{border-collapse:collapse;width:100%}
 td{font-size:15px;padding:7px 8px;border-bottom:1px solid var(--card2);transition:background .15s}
@@ -275,8 +277,8 @@ table.src tr.t td{font-weight:700;border-bottom:0}
 </div>
 <div class="g2 z" style="margin-top:18px;grid-template-columns:1fr 1.15fr">
  <div class="card hov"><h3>De onde vem a receita (out/25)</h3>
-  <div class="mix"><div class="grow-w" style="--w:82.5%;background:var(--tx)">Unimed · R$ 182 mil</div><div class="grow-w" style="--w:7.7%;background:var(--mut)"></div><div class="grow-w" style="--w:9.8%;background:var(--or)"></div></div>
-  <div class="leg"><span><i style="background:var(--tx)"></i>Unimed 82%</span><span><i style="background:var(--mut)"></i>Cabergs 8%</span><span><i style="background:var(--or)"></i>Particular 10%</span></div>
+  <div class="mix"><div class="grow-w" style="--w:82.5%;background:var(--tx)">Unimed · R$ 182 mil</div><div class="grow-w sm" style="--w:7.7%;background:var(--mut)">8%</div><div class="grow-w sm" style="--w:9.8%;background:var(--or)">10%</div></div>
+  <div class="leg"><span><i style="background:var(--tx)"></i>Unimed 82% · <b>R$ 182.327</b></span><span><i style="background:var(--mut)"></i>Cabergs 8% · <b>R$ 17.115</b></span><span><i style="background:var(--or)"></i>Particular 10% · <b>R$ 21.595</b></span></div>
   <table class="src"><tr><th>Serviço</th><th>Tipo</th><th>Atend.</th><th>Receita</th><th>Por atend.</th></tr>
    <tr><td>Fisio + cinesio · Unimed</td><td>Plano</td><td>5.655</td><td>R$ 182.327</td><td>R$ 32</td></tr>
    <tr><td>Fisio + cinesio · Cabergs</td><td>Plano</td><td>508</td><td>R$ 17.115</td><td>R$ 34</td></tr>
